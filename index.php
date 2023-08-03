@@ -2,7 +2,6 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<!-- //index -->
 <head>
     <!-- Incluir archivo de Js y estilos CSS -->
     <script src="./js/funciones.js"  defer></script>
@@ -10,7 +9,6 @@
     <title>Login</title>
 </head>
 <body>
-    <!-- prueva -->
     <div class="min-h-screen flex flex-wrap justify-center sm:content-center font-['Open_Sans']">
         <div class="flex flex-col items-center w-full max-w-md sm:p-12  rounded-3xl  text-[#333]">
 
