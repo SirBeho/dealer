@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- cambio de prueva -->
     <!-- Incluir archivo de Js y estilos CSS -->
     <script src="./js/funciones.js"  defer></script>
     <link href="./css/output.css" rel="stylesheet">
