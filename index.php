@@ -1,7 +1,8 @@
 <?php session_start(); ?>
+
 <!DOCTYPE html>
 <html lang="en">
-
+<!-- //index -->
 <head>
     <!-- Incluir archivo de Js y estilos CSS -->
     <script src="./js/funciones.js"  defer></script>
