@@ -8,6 +8,8 @@ if (!isset($_SESSION['query'])) {
 
 extract($_SESSION['post']);
 $resultado = $mysqli->query($_SESSION['query']);
+$marcas = $mysqli->query("SELECT * FROM `vehiculos_marcas`");
+$modelo = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
 
 ?>
 <!DOCTYPE html>
@@ -45,10 +47,19 @@ $resultado = $mysqli->query($_SESSION['query']);
                             <label class="flex flex-col w-full">
                                 <span>Marca</span>
                                 <select class="bg-gray-100 rounded-sm p-2 text-gray-500" name="marca" class="block w-full" placeholder="Marca">
-                                    <option value="" disabled selected>Marca</option>
-                                    <option value="Toyota" <?php echo ($marca === 'Toyota') ? 'selected' : ''; ?>>Toyota</option>
-                                    <option value="Honda" <?php echo ($marca === 'Honda') ? 'selected' : ''; ?>>Honda</option>
-                                    <!-- Agregar otras marcas aquí -->
+                                     <option value="" disabled selected>Marca</option>
+                                      <?php
+                                        if ($marcas) {
+                                            if ($marcas->num_rows > 0) {
+                                                while ($datos = $marcas->fetch_assoc()) {
+                                                    echo "<option value=\"{$datos['idVehiculos_Marca']}\">{$datos['marca_nombre']}</option>";
+                                                }
+                                            } 
+                                            $marcas->free();
+                                        } else {
+                                            echo "<option >Error executing the query: " . $mysqli->error . "</option>";
+                                        }
+                                        ?>
                                 </select>
                             </label>
 
@@ -56,9 +67,18 @@ $resultado = $mysqli->query($_SESSION['query']);
                                 <span>Modelo</span>
                                 <select class="bg-gray-100 rounded-sm p-2 text-gray-500" name="modelo" class="block w-full" placeholder="Modelo">
                                     <option value="" disabled selected>Modelo</option>
-                                    <option value="Toyota" <?php echo ($modelo === 'Toyota') ? 'selected' : ''; ?>>Toyota</option>
-                                    <option value="Honda" <?php echo ($modelo === 'Honda') ? 'selected' : ''; ?>>Honda</option>
-                                    <!-- Agregar otros modelos aquí -->
+                                    <?php
+                                        if ($modelo) {
+                                            if ($modelo->num_rows > 0) {
+                                                while ($datos = $modelo->fetch_assoc()) {
+                                                    echo "<option value=\"{$datos['idVehiculos_Modelos']}\">{$datos['Modelo_nombre']}</option>";
+                                                }
+                                            } 
+                                            $modelo->free();
+                                        } else {
+                                            echo "<option >Error executing the query: " . $mysqli->error . "</option>";
+                                        }
+                                        ?>
                                 </select>
                             </label>
 

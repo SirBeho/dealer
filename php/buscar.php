@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     if (!empty($modeloSeleccionado)) {
-        $condiciones[] = "modelo = '$modeloSeleccionado'";
+        $condiciones[] = "idVehiculos_Modelos = '$modeloSeleccionado'";
     } 
 
     if (!empty($anioMin)) {
@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     // Construir la consulta SQL
-    $sql = "SELECT * FROM vehiculos_venta";
+    $sql = "select * from vehiculos_venta left JOIN vehiculos_modelos on idVehiculos_Modelos = vehiculo_modelo";
 
     if (!empty($condiciones)) {
         $sql .= " WHERE " . implode(" AND ", $condiciones);

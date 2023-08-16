@@ -1,13 +1,16 @@
-
-
 -- phpMyAdmin SQL Dump
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 02-08-2023 a las 21:53:39
+-- Tiempo de generación: 16-08-2023 a las 01:19:37
 -- Versión del servidor: 8.0.31
 -- Versión de PHP: 8.2.0
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -17,8 +20,6 @@
 --
 -- Base de datos: `mydb`
 --
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
-USE `mydb` ;
 
 -- --------------------------------------------------------
 
@@ -768,26 +769,11 @@ CREATE TABLE IF NOT EXISTS `vehiculos_marcas` (
 --
 
 INSERT INTO `vehiculos_marcas` (`idVehiculos_Marca`, `marca_nombre`) VALUES
-(8, 'Audi'),
-(6, 'BMW'),
 (4, 'Chevrolet'),
-(17, 'Ferrari'),
 (3, 'Ford'),
 (2, 'Honda'),
-(9, 'Hyundai'),
-(14, 'Jeep'),
-(10, 'Kia'),
-(20, 'Land Rover'),
-(15, 'Lexus'),
-(12, 'Mazda'),
-(7, 'Mercedes-Benz'),
 (5, 'Nissan'),
-(18, 'Porsche'),
-(13, 'Subaru'),
-(19, 'Tesla'),
-(1, 'Toyota'),
-(11, 'Volkswagen'),
-(16, 'Volvo');
+(1, 'Toyota');
 
 -- --------------------------------------------------------
 
@@ -801,9 +787,9 @@ CREATE TABLE IF NOT EXISTS `vehiculos_modelos` (
   `Modelo_nombre` varchar(45) NOT NULL,
   `marca` int NOT NULL,
   PRIMARY KEY (`idVehiculos_Modelos`),
-  UNIQUE KEY `marca_UNIQUE` (`marca`),
   UNIQUE KEY `idVehiculos_Modelos_UNIQUE` (`idVehiculos_Modelos`),
-  UNIQUE KEY `Modelo_nombre_UNIQUE` (`Modelo_nombre`)
+  UNIQUE KEY `Modelo_nombre_UNIQUE` (`Modelo_nombre`),
+  KEY `marca` (`marca`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
@@ -816,21 +802,21 @@ INSERT INTO `vehiculos_modelos` (`idVehiculos_Modelos`, `Modelo_nombre`, `marca`
 (3, 'F-150', 3),
 (4, 'Silverado', 4),
 (5, 'Altima', 5),
-(6, '3 Series', 6),
-(7, 'C-Class', 7),
-(8, 'A4', 8),
-(9, 'Elantra', 9),
-(10, 'Sorento', 10),
-(11, 'Golf', 11),
-(12, 'CX-5', 12),
-(13, 'Outback', 13),
-(14, 'Wrangler', 14),
-(15, 'RX', 15),
-(16, 'XC60', 16),
-(17, '488 GTB', 17),
-(18, '911', 18),
-(19, 'Model S', 19),
-(20, 'Range Rover', 20);
+(6, 'Camry', 1),
+(7, 'Accord', 2),
+(8, 'Mustang', 3),
+(9, 'Cruze', 4),
+(10, 'Sentra', 5),
+(11, 'Rav4', 1),
+(12, 'Fit', 2),
+(13, 'Focus', 3),
+(14, 'Equinox', 4),
+(15, 'Maxima', 5),
+(16, 'Highlander', 1),
+(17, 'HR-V', 2),
+(18, 'Explorer', 3),
+(19, 'Traverse', 4),
+(20, 'Rogue', 5);
 
 -- --------------------------------------------------------
 
@@ -890,7 +876,7 @@ CREATE TABLE IF NOT EXISTS `vehiculos_venta` (
   `millage` float NOT NULL,
   `fecha_adquisicion` date NOT NULL,
   `year` varchar(45) NOT NULL,
-  `vehiculo_modelo` int NOT NULL,
+  `vehiculo_modelo` int DEFAULT NULL,
   `vehiculo_Categoria` int NOT NULL,
   `image` varchar(100) NOT NULL,
   PRIMARY KEY (`idVehiculos_Venta`),
@@ -1096,13 +1082,6 @@ ALTER TABLE `vehiculos_modelos`
 ALTER TABLE `vehiculos_vendidos`
   ADD CONSTRAINT `cliente` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`idCliente`),
   ADD CONSTRAINT `vehiculoVenta` FOREIGN KEY (`idVehiculoVenta`) REFERENCES `vehiculos_venta` (`idVehiculos_Venta`);
-
---
--- Filtros para la tabla `vehiculos_venta`
---
-ALTER TABLE `vehiculos_venta`
-  ADD CONSTRAINT `categoria` FOREIGN KEY (`vehiculo_Categoria`) REFERENCES `vehiculo_categoria` (`idVehiculo_Categoria`),
-  ADD CONSTRAINT `modelo` FOREIGN KEY (`vehiculo_modelo`) REFERENCES `vehiculos_modelos` (`idVehiculos_Modelos`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,7 +1,13 @@
-<?php session_start(); ?>
+<?php session_start();
+require("../php/connection.php");
+$marcas = $mysqli->query("SELECT * FROM `vehiculos_marcas`");
+$modelo = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <!-- home -->
+
 <head>
     <!-- Incluir archivo de Js y estilos CSS -->
     <script src="../js/funciones.js" defer></script>
@@ -42,17 +48,24 @@
                     <div class="grid grid-cols-2 gap-4">
 
 
-                        <select class="bg-gray-100 rounded-sm p-2 text-gray-500" name="marca" class="block w-full" placeholder="Marca">
-                            <option value="" disabled   selected>Marca</option>
-                            <option value="Toyota">Toyota</option>
-                            <option value="Honda">Honda</option>
-                            <!-- Agregar otras marcas aquí -->
+                        <select id="marca" onchange="updateModelos()" class="bg-gray-100 rounded-sm p-2 text-gray-500" name="marca" class="block w-full" placeholder="Marca">
+                            <option value="" disabled selected>Marca</option>
+                            <?php
+                            if ($marcas) {
+                                if ($marcas->num_rows > 0) {
+                                    while ($datos = $marcas->fetch_assoc()) {
+                                        echo "<option value=\"{$datos['idVehiculos_Marca']}\">{$datos['marca_nombre']}</option>";
+                                    }
+                                }
+                                $marcas->free();
+                            } else {
+                                echo "<option >Error executing the query: " . $mysqli->error . "</option>";
+                            }
+                            ?>
                         </select>
 
-                        <select class="bg-gray-100 rounded-sm p-2 text-gray-500" name="modelo" class="block w-full" placeholder="Modelo">
-                            <option value="" disabled selected>Modelo</option>
-                            <option value="Toyota">Toyota</option>
-                            <option value="Honda">Honda</option>
+                        <select id="modelo" class="bg-gray-100 rounded-sm p-2 text-gray-500 block w-full" name="modelo" placeholder="Modelo">
+                           
                         </select>
 
                         <label class="bg-gray-100 rounded-sm p-2">
@@ -73,9 +86,6 @@
                         </label>
 
                     </div>
-
-
-
 
                 </div>
 
@@ -127,6 +137,7 @@
         </form>
 
     </div>
+
 
 </body>
 
