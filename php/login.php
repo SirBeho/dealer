@@ -14,7 +14,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
     
     /* if($resultado && password_verify($password, $resultado['password'])){ */
         if($resultado && $password == $resultado['PasswUser']){
-            $persona = $mysqli -> query("select * from persona where idPersona = '".$resultado['idPersona']."'");
+            $persona = $mysqli -> query("select * from persona join correos on persona.idcorreo = correos.idcorreos join telefono on persona.idtelefono = telefono.idtelefono where idPersona = '".$resultado['idPersona']."'");
             $persona = $persona-> fetch_assoc();
             $_SESSION['persona'] = $persona;
             header("Location: ../pages/profile.php");

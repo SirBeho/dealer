@@ -2,7 +2,7 @@
 require("../php/connection.php");
 $marcas = $mysqli->query("SELECT * FROM `vehiculos_marcas`");
 $modelo = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
-
+$categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,10 +38,10 @@ $modelo = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
                     <div class="flex text-xl font-bold text-orange-600 gap-4 ">
                         Condición:
                         <label>
-                            <input class="outline outline-orange-600" type="checkbox" name="condicion[]" value="Nuevo"> Nuevo
+                            <input class="outline outline-orange-600" type="checkbox" name="condicion[]" value="1"> Nuevo
                         </label>
                         <label>
-                            <input class="outline outline-orange-600" type="checkbox" name="condicion[]" value="Usado"> Usado
+                            <input class="outline outline-orange-600" type="checkbox" name="condicion[]" value="0"> Usado
                         </label>
                     </div>
 
@@ -49,7 +49,7 @@ $modelo = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
 
 
                         <select id="marca" onchange="updateModelos()" class="bg-gray-100 rounded-sm p-2 text-gray-500" name="marca" class="block w-full" placeholder="Marca">
-                            <option value="" disabled selected>Marca</option>
+                            <option value=""  selected>Marca</option>
                             <?php
                             if ($marcas) {
                                 if ($marcas->num_rows > 0) {
@@ -65,7 +65,7 @@ $modelo = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
                         </select>
 
                         <select id="modelo" class="bg-gray-100 rounded-sm p-2 text-gray-500 block w-full" name="modelo" placeholder="Modelo">
-                           
+                        <option value=""  selected>Modelo</option>
                         </select>
 
                         <label class="bg-gray-100 rounded-sm p-2">
@@ -90,40 +90,26 @@ $modelo = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
                 </div>
 
                 <div class="flex flex-col gap-8">
-                    <span class="text-3xl font-bold">Tipo Vehiculo</span>
-                    <div class="grid grid-cols-2 gap-6 gap-x-14   text-white">
-                        <label class="bg-orange-600 rounded-lg p-1 text-center">
-                            <input class="text-white" type="checkbox" name="tipo[]" value="Sedán"> Sedán
-                        </label>
-                        <label class="bg-orange-600 rounded-lg p-1 text-center">
-                            <input type="checkbox" name="tipo[]" value="Sedán"> Sedán
-                        </label>
-                        <label class="bg-orange-600 rounded-lg p-1 text-center">
-                            <input type="checkbox" name="tipo[]" value="Sedán"> Sedán
-                        </label>
-                        <label class="bg-orange-600 rounded-lg p-1 text-center">
-                            <input type="checkbox" name="tipo[]" value="Sedán"> Sedán
-                        </label>
-
-                        <label class="bg-orange-600 rounded-lg p-1 text-center">
-                            <input type="checkbox" name="tipo[]" value="SUV"> SUV
-                        </label>
-
-                        <label class="bg-orange-600 rounded-lg p-1 text-center">
-                            <input type="checkbox" name="tipo[]" value="Camioneta"> Camioneta
-                        </label>
-                        <label class="bg-orange-600 rounded-lg p-1 text-center">
-                            <input type="checkbox" name="tipo[]" value="Camioneta"> Camioneta
-                        </label>
-                        <label class="bg-orange-600 rounded-lg p-1 text-center">
-                            <input type="checkbox" name="tipo[]" value="Camioneta"> Camioneta
-                        </label>
-                        <label class="bg-orange-600 rounded-lg p-1 text-center">
-                            <input type="checkbox" name="tipo[]" value="Camioneta"> Camioneta
-                        </label>
-                        <label class="bg-orange-600 rounded-lg p-1 text-center">
-                            <input type="checkbox" name="tipo[]" value="Camioneta"> Camioneta
-                        </label>
+                    <span class="text-3xl font-bold">Categoria de Vehiculo</span>
+                    <div class="grid grid-cols-2 gap-6 gap-x-14 h-80 overflow-scroll pr-4 text-white">
+                        
+                        <?php
+                            if ($categoria) {
+                                if ($categoria->num_rows > 0) {
+                                   
+                                    while ($datos = $categoria->fetch_assoc()) {
+                                       ?>
+                                        <label class="bg-orange-600 rounded-lg p-1 text-center">
+                                                <input  type="checkbox" name="tipo[]" value="<?php echo $datos['idVehiculo_Categoria'] ?>"><?php echo $datos['nombre_Categoria'] ?> 
+                                             </label>
+                                       <?php
+                                    }
+                                }
+                                $categoria->free();
+                            } else {
+                                echo "<option >Error executing the query: " . $mysqli->error . "</option>";
+                            }
+                            ?>
 
 
                     </div>
@@ -132,7 +118,10 @@ $modelo = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
             </div>
             <div class="flex flex-col items-center w-full gap-14">
                 <button class="text-center w-28 py-4 bg-orange-600 rounded-lg text-sm leading-normal font-semibold text-white" type="submit">Buscar</button>
-                <a class="text-center w-44 py-4 bg-orange-600 rounded-lg text-sm leading-normal font-semibold text-white">Vender tu carro</a>
+               
+            </div>
+            <div class="w-96 border border-red-500 h-60">
+                <span>Favorito</span>
             </div>
         </form>
 

@@ -39,7 +39,7 @@ function updateModelos() {
         var modeloSelect = document.getElementById("modelo");
         
         // Limpia las opciones actuales del menú de modelos
-        modeloSelect.innerHTML = '<option value="" disabled selected>Modelo</option>';
+        modeloSelect.innerHTML = '<option value=""  selected>Modelo</option>';
         
         // Si no se seleccionó una marca, no se realiza la consulta
         if (marcaId !== "") {

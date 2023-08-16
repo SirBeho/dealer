@@ -47,7 +47,7 @@ extract($_SESSION['persona']);
              
                 <div class="flex items-center gap-3 border border-gray-BD rounded-lg p-3 ps-4">
                     <div class="w-4"><img src="../svg/password.svg" alt="logo"></div>
-                    <input class="outline-none w-full" type="text" name="telefono" autocomplete="off" placeholder="Telefono" value="<?php echo $telefono?>" disabled>
+                    <input class="outline-none w-full" type="text" name="telefono" autocomplete="off" placeholder="Telefono" value="<?php echo $numTel?>" disabled>
                 </div>
 
                 <?php

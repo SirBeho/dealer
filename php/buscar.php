@@ -8,45 +8,31 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     session_start();
     require("connection.php");
 
-    $_POST["condicion"] = (isset($_POST["condicion"]) and $_POST["condicion"][0] !== '' and count($_POST["condicion"]) === 1)  ? $_POST["condicion"][0] : '';
-    $_POST["marca"] = isset($_POST["marca"]) ? $_POST["marca"] : "";
-    $_POST["modelo"] = isset($_POST["modelo"]) ? $_POST["modelo"] : "";
-    // Obtener los valores seleccionados
-    $tiposSeleccionados = isset($_POST["tipo"]) ? $_POST["tipo"] : array();
-    $condicionesSeleccionadas = $_POST["condicion"];
-    $marcaSeleccionada = $_POST["marca"];
-    $modeloSeleccionado = $_POST["modelo"];
-    $anioMin = $_POST["anio_min"];
-    $anioMax = $_POST["anio_max"];
-    $precioMin = $_POST["precio_min"];
-    $precioMax = $_POST["precio_max"];
+    $_POST["condicion"] = (isset($_POST["condicion"]) && count($_POST["condicion"]) === 1) ? $_POST["condicion"][0] : "";
+    extract($_POST);
 
-    // Construir las condiciones para la consulta SQL
     $condiciones = array();
     
-    if (!empty($tiposSeleccionados)) {
-        $tiposSeleccionados = "'" . implode("','", $tiposSeleccionados) . "'";
-        $condiciones[] = "tipo IN ($tiposSeleccionados)";
+    if (isset($_POST["tipo"])) {
+        $tipo = "'" . implode("','", $tipo) . "'";
+        $condiciones[] = "vehiculo_categoria IN ($tipo)";
     }
 
-  /*   if (!empty($condicionesSeleccionadas)) {
-        $condicionesSeleccionadas = "'" . implode("','", $condicionesSeleccionadas) . "'";
-        $condiciones[] = "condicion IN ($condicionesSeleccionadas)";
-    } */
-
-    if (!empty($condicionesSeleccionadas)) {
-        $condiciones[] = "condicion = '$condicionesSeleccionadas'";
+    if ($condicion != "") {
+       
+        $condiciones[] = "nuevo = '$condicion'";
     }
 
-    if (!empty($marcaSeleccionada)) {
-        $condiciones[] = "marca = '$marcaSeleccionada'";
+    if (!empty($marca)) {
+        $condiciones[] = "marca = '$marca'";
     }
 
-    if (!empty($modeloSeleccionado)) {
-        $condiciones[] = "idVehiculos_Modelos = '$modeloSeleccionado'";
+    if (!empty($modelo)) {
+        $condiciones[] = "idVehiculos_Modelos = '$modelo'";
     } 
 
     if (!empty($anioMin)) {
+      
         $condiciones[] = "year >= $anioMin";
     }
 
@@ -62,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $condiciones[] = "precio <= $precioMax";
     }
 
-    // Construir la consulta SQL
+    
     $sql = "select * from vehiculos_venta left JOIN vehiculos_modelos on idVehiculos_Modelos = vehiculo_modelo";
 
     if (!empty($condiciones)) {
@@ -73,9 +59,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $_SESSION['query'] = $sql;
     $_SESSION['post'] = $_POST;
   
-
+    var_dump($sql);
    
-     header("Location: ../pages/resultado.php");
+    header("Location: ../pages/resultado.php"); 
 }
 
 ?>
