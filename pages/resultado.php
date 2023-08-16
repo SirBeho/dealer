@@ -125,11 +125,12 @@ $modelo = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
                         while ($datos = $resultado->fetch_assoc()) {
                 ?>
 
+
                             <div class="h-fit bg-gray-300 rounded-xl p-1">
-                                <div class="w-72  rounded-xl  overflow-hidden">
-                                    <img src="../pictures/<?php echo $datos['image']; ?>" alt="">
+                                <div class="w-72 h-48 object-fill rounded-xl bg-white overflow-hidden">
+                                    <img src="../pictures/<?php echo is_file("../pictures/carro_" . $datos['idVehiculos_Venta']) ? "carro_" . $datos['idVehiculos_Venta'] : "default.jpg" ?> " alt="">
                                 </div>
-                                <p class="font-bold text-black"><?php echo $datos['year'] . " " . $datos['vehiculo_modelo']; ?> Apex</p>
+                                <p class="font-bold text-black"><?php echo  $datos['marca_nombre']. " " . $datos['Modelo_nombre'] . " " . $datos['year'] ; ?> </p>
                                 <p class="text-gray-600">RD$ <?php echo number_format($datos['precio'], 2, ',', '.'); ?></p>
                             </div>
 

@@ -48,8 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $condiciones[] = "precio <= $precioMax";
     }
 
-    
-    $sql = "select * from vehiculos_venta left JOIN vehiculos_modelos on idVehiculos_Modelos = vehiculo_modelo";
+    $sql = "select * from vehiculos_venta left JOIN vehiculos_modelos on idVehiculos_Modelos = vehiculo_modelo  join vehiculos_marcas on vehiculos_modelos.marca = vehiculos_marcas.idVehiculos_Marca";
 
     if (!empty($condiciones)) {
         $sql .= " WHERE " . implode(" AND ", $condiciones);
