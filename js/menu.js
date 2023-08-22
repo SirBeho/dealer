@@ -72,8 +72,25 @@ if (enlaces) {
   });
 }
 
+
+
+const boton = document.getElementById("control-menu"); // Botón para controlar el menú
+const cuadro = document.getElementById("cuadro"); // Cuadro principal
+const targetDiv = document.getElementById("menu"); // Menú desplegable
     
-  
+boton.addEventListener('click', function () {
+  targetDiv.classList.toggle("h-0"); 
+  targetDiv.classList.toggle("h-36"); 
+  targetDiv.classList.toggle("opacity-0"); 
+});
+
+// Agregar un evento al cuadro principal para ocultar el menú cuando se pasa el mouse sobre él
+cuadro.addEventListener('mouseover', function () {
+  targetDiv.classList.add("opacity-0"); 
+  targetDiv.classList.add("h-0"); 
+  targetDiv.classList.remove("h-36"); 
+});
+
 
    
    

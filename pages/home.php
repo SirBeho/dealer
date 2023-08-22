@@ -3,6 +3,9 @@ require("../php/connection.php");
 $marcas = $mysqli->query("SELECT * FROM `vehiculos_marcas`");
 $modelo = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
 $categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
+$favoritos = $mysqli->query("select * from favoritos left join vehiculos_venta on favoritos.idVehiculo = vehiculos_venta.idVehiculos_Venta left JOIN vehiculos_modelos on idVehiculos_Modelos = vehiculo_modelo  join vehiculos_marcas on vehiculos_modelos.marca = vehiculos_marcas.idVehiculos_Marca join vehiculo_categoria on vehiculos_venta.vehiculo_Categoria = vehiculo_categoria.idVehiculo_Categoria");
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,98 +14,90 @@ $categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
 <head>
     <!-- Incluir archivo de Js y estilos CSS -->
     <script src="../js/funciones.js" defer></script>
-
     <link href="../css/output.css" rel="stylesheet">
     <link href="../css/input.css" rel="stylesheet">
 
     <title>Login</title>
-
 </head>
 
 <body>
-    <div class="w-screen m-6 ">
-        <div class="w-full  flex gap-5 items-center">
-            <span class="text-2xl font-bold">Your Car spot</span>
-            <!-- <div class="flex items-center gap-3 border w-3/5  bg-gray-300 rounded-lg p-3 ps-4">
-                <input class="w-full outline-none bg-transparent text-gray-600" type="text" name="search" placeholder="Buscar">
-                <div class="w-4"><img src="../svg/password.svg" alt="logo"></div>
-            </div> -->
-        </div>
+    <div class="w-screen">
 
-        <form action="../php/buscar.php" method="post" class="mt-14 ">
-            <div class="flex justify-center gap-14  mb-12">
+        <?php include "./nav.php" ?>
 
-                <div class="flex flex-col gap-6 max-w-xs">
-                    <span class="text-3xl font-bold mt-2">Buscar Vehiculo</span>
+        <form id="cuadro" action="../php/buscar.php" method="post" class="mt-14 p-6 ">
+            <div class="p-2 shadow-md ">
+                <span class="block text-3xl font-bold my-4  border-b-2 border-orange-300 ">Buscar Vehiculo</span>
+                <div class="flex justify-center gap-14">
 
-                    <div class="flex text-xl font-bold text-orange-600 gap-4 ">
-                        Condición:
-                        <label>
-                            <input  type="checkbox" name="condicion[]" value="1"> Nuevo
-                        </label>
-                        <label>
-                            <input  type="checkbox" name="condicion[]" value="0"> Usado
-                        </label>
-                    </div>
+                    <div class="flex flex-col gap-6 max-w-xs">
 
-                    <div class="grid grid-cols-2 gap-8">
+                        <div class="flex text-xl font-bold text-orange-600 gap-4 ">
+                            Condición:
+                            <label>
+                                <input type="checkbox" name="condicion[]" value="1"> Nuevo
+                            </label>
+                            <label>
+                                <input type="checkbox" name="condicion[]" value="0"> Usado
+                            </label>
+                        </div>
 
-
-                        <select id="marca" onchange="updateModelos()"  name="marca" placeholder="Marca">
-                            <option value=""  selected>Marca</option>
-                            <?php
-                            if ($marcas) {
-                                if ($marcas->num_rows > 0) {
-                                    while ($datos = $marcas->fetch_assoc()) {
-                                        echo "<option value=\"{$datos['idVehiculos_Marca']}\">{$datos['marca_nombre']}</option>";
+                        <div class="grid grid-cols-2 gap-8">
+                            <select id="marca" onchange="updateModelos()" name="marca" placeholder="Marca">
+                                <option value="" selected>Marca</option>
+                                <?php
+                                if ($marcas) {
+                                    if ($marcas->num_rows > 0) {
+                                        while ($datos = $marcas->fetch_assoc()) {
+                                            echo "<option value=\"{$datos['idVehiculos_Marca']}\">{$datos['marca_nombre']}</option>";
+                                        }
                                     }
+                                    $marcas->free();
+                                } else {
+                                    echo "<option >Error executing the query: " . $mysqli->error . "</option>";
                                 }
-                                $marcas->free();
-                            } else {
-                                echo "<option >Error executing the query: " . $mysqli->error . "</option>";
-                            }
-                            ?>
-                        </select>
+                                ?>
+                            </select>
 
-                        <select id="modelo"  name="modelo" placeholder="Modelo">
-                        <option value=""  selected>Modelo</option>
-                        </select>
+                            <select id="modelo" name="modelo" placeholder="Modelo">
+                                <option value="" selected>Modelo</option>
+                            </select>
 
-                        <label >
+                            <label>
 
-                            <input  type="number" name="anio_min" placeholder="Año mínimo" >
-                        </label>
-                        <label >
+                                <input type="number" name="anio_min" placeholder="Año mínimo">
+                            </label>
+                            <label>
 
-                            <input  type="number" name="anio_max" placeholder="Año máximo" >
-                        </label>
-                        <label >
+                                <input type="number" name="anio_max" placeholder="Año máximo">
+                            </label>
+                            <label>
 
-                            <input  type="number" name="precio_min" placeholder="Precio mínimo" >
-                        </label>
-                        <label >
+                                <input type="number" name="precio_min" placeholder="Precio mínimo">
+                            </label>
+                            <label>
 
-                            <input  type="number" name="precio_max" placeholder="Precio máximo" >
-                        </label>
+                                <input type="number" name="precio_max" placeholder="Precio máximo">
+                            </label>
+
+                        </div>
 
                     </div>
 
-                </div>
+                    <div class="flex flex-col gap-8">
+                        <span class="text-xl font-bold">Categoria de Vehiculo</span>
+                        <div class="grid grid-cols-2 gap-6 gap-x-8 h-80 overflow-scroll pr-4 text-white">
 
-                <div class="flex flex-col gap-8">
-                    <span class="text-3xl font-bold">Categoria de Vehiculo</span>
-                    <div class="grid grid-cols-2 gap-6 gap-x-14 h-80 overflow-scroll pr-4 text-white">
-                        
-                        <?php
+                            <?php
                             if ($categoria) {
                                 if ($categoria->num_rows > 0) {
-                                   
+
                                     while ($datos = $categoria->fetch_assoc()) {
-                                       ?>
+                            ?>
                                         <label class="bg-orange-600 rounded-lg p-1 ps-5 ">
-                                                <input  type="checkbox" name="tipo[]" value="<?php echo $datos['idVehiculo_Categoria'] ?>">&nbsp;<?php echo $datos['nombre_Categoria'] ?> 
-                                             </label>
-                                       <?php
+                                            <input type="checkbox" name="tipo[]" value="<?php echo $datos['idVehiculo_Categoria'] ?>">&nbsp;<?php echo $datos['nombre_Categoria'] ?>
+                                        </label>
+                            <?php
                                     }
                                 }
                                 $categoria->free();
@@ -112,23 +107,47 @@ $categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
                             ?>
 
 
+                        </div>
+                        <button type="submit" class="self-end flex gap-2 justify-center w-28 py-4 bg-orange-600 rounded-lg text-sm leading-normal font-semibold text-white">
+                            <span>Buscar</span>
+                            <img src="../svg/search.svg" alt="">
+                        </button>
+
                     </div>
                 </div>
+            </div>
 
-            </div>
-            <div class="flex flex-col items-center w-full gap-14">
-                <button class="text-center w-28 py-4 bg-orange-600 rounded-lg text-sm leading-normal font-semibold text-white" type="submit">Buscar</button>
-               
-            </div>
-            <div class="w-96 border border-red-500 h-60">
-                <span>Favorito</span>
+            <div class="p-2 shadow-md mt-2 ">
+                <span class="block text-3xl font-bold my-4 border-b-2 border-orange-300 ">Favoritos</span>
+                <div class="flex overflow-x-scroll gap-8 w-full">
+                    <?php
+                    if ($favoritos) {
+                        if ($favoritos->num_rows > 0) {
+                            while ($datos = $favoritos->fetch_assoc()) {
+                    ?>
+                                <a href="./detalle.php?id=<?php echo $datos['idVehiculos_Venta']?>" class="h-fit bg-gray-300 hover:bg-orange-200 rounded-xl p-1">
+                                    <div class="w-72 h-48 object-fill rounded-xl bg-white overflow-hidden">
+                                        <img src="../pictures/<?php echo is_file("../pictures/carro_" . $datos['idVehiculos_Venta']) ? "carro_" . $datos['idVehiculos_Venta'] : "default.jpg" ?> " alt="">
+                                    </div>
+                                    <p class="font-bold text-black"><?php echo   $datos['nombre_Categoria'] . " " . $datos['marca_nombre'] . " " . $datos['Modelo_nombre'] . " " . $datos['year']; ?> </p>
+                                    <p class="text-gray-600">RD$ <?php echo number_format($datos['precio'], 2, ',', '.'); ?></p>
+                            </a>
+                    <?php
+                            }
+                        } else {
+                            echo "<div class='w-full  text-center'> 
+                                    <span class='text-xl font-semibold'>No hay vehiculos en favoritos.</span>
+                                </div>";
+                        }
+                        $favoritos->free();
+                    } else {
+                        echo "<tr><td colspan='5'>Error executing the query: " . $mysqli->error . "</td></tr>";
+                    }
+                    ?>
+                </div>
             </div>
         </form>
-
     </div>
-
-
 </body>
-
 
 </html>

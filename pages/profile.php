@@ -1,14 +1,14 @@
 <?php
 // Iniciar sesión y redirigir a la página de inicio de sesión si no hay una sesión activa
 session_start();
- if (!isset($_SESSION['persona'])) {
+if (!isset($_SESSION['persona'])) {
     header("Location: ../index.php");
     die();
 }
 
 // Extraer información del persona de la sesión activa
 extract($_SESSION['persona']);
-var_dump($_SESSION['persona']);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,33 +21,41 @@ var_dump($_SESSION['persona']);
     <title>Login</title>
 </head>
 
-<body>
-    <div class="min-h-screen flex flex-wrap justify-center sm:content-center font-['Open_Sans']">
-        <div class="flex flex-col items-center w-full max-w-md  sm:p-12  rounded-3xl  text-[#333]">
+<body> 
+    <?php include "./nav.php" ?>
+    <div class="flex flex-wrap justify-center sm:content-center font-['Open_Sans']">
+       
+        <div class="flex flex-col items-center w-full max-w-md px-12 mt-20 rounded-3xl  text-[#333]">
 
-            <div class="my-8">
+            <a href="./home.php" class="w-10 self-start text-orange-600 hover:text-orange-700 -ms-24 hover:bg-transparent">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                    <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
+                </svg>
+            </a>
+
+            <div class="my-4">
                 <h3 class="font-bold text-lg text-center mb-2 "> Perfil </h3>
                 <div class="w-20">
-                <img src="../pictures/auto.png" alt="">
-            </div>
+                    <img src="../pictures/auto.png" alt="">
+                </div>
             </div>
 
-            <!-- Formulario de inicio de sesión -->
-            <form  method="post" class=" flex  w-full flex-col gap-4 relative text-gray-500">
+
+            <form method="post" class=" flex  w-full flex-col gap-4 relative text-gray-500">
 
                 <div class="flex items-center gap-3 border border-gray-BD rounded-lg p-2 ps-4">
                     <div class="w-4"><img src="../svg/password.svg" alt="logo"></div>
-                    <input class="bg-transparent " type="text" name="name" autocomplete="off" placeholder="Nombre" value="<?php  echo $nombre." ".$apellido?>" disabled>
+                    <input class="bg-transparent " type="text" name="name" autocomplete="off" placeholder="Nombre" value="<?php echo $nombre . " " . $apellido ?>" disabled>
                 </div>
 
                 <div class="flex items-center gap-3 border border-gray-BD rounded-lg p-2 ps-4">
                     <div class="w-4"><img src="../svg/email.svg" alt="logo"></div>
-                    <input class="bg-transparent  " type="email" name="email" autocomplete="off" placeholder="Correo" value="<?php echo $correo?>" disabled>
+                    <input class="bg-transparent  " type="email" name="email" autocomplete="off" placeholder="Correo" value="<?php echo $correo ?>" disabled>
                 </div>
-             
+
                 <div class="flex items-center gap-3 border border-gray-BD rounded-lg p-2 ps-4">
                     <div class="w-4"><img src="../svg/password.svg" alt="logo"></div>
-                    <input class="bg-transparent     " type="text" name="telefono" autocomplete="off" placeholder="Telefono" value="<?php echo $numTel?>" disabled>
+                    <input class="bg-transparent     " type="text" name="telefono" autocomplete="off" placeholder="Telefono" value="<?php echo $numTel ?>" disabled>
                 </div>
 
                 <?php
@@ -57,14 +65,14 @@ var_dump($_SESSION['persona']);
                 }
                 ?>
 
-            <?php if ($isInterno) { ?>
-                <a href="./registro.php" class="w-full text-center  py-4 mt-2 bg-orange-600 rounded-lg text-sm  font-semibold text-white" type="submit">Registrar Vehiculo</a>
-            <?php } ?>
+                <?php if ($isInterno) { ?>
+                    <a href="./registro.php" class="w-full text-center  py-4 mt-2 bg-orange-600 rounded-lg text-sm  font-semibold text-white" type="submit">Registrar Vehiculo</a>
+                <?php } ?>
                 <a href="./home.php" class="w-full text-center py-4 mt-2 bg-orange-600 rounded-lg text-sm  font-semibold text-white" type="submit">Ver catalogo de Ventas</a>
                 <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" id="edit_password" class="w-full text-center py-4 mt-2 bg-orange-600 rounded-lg text-sm  font-semibold text-white" type="button">Cambiar Contraseña</button>
                 <a href="../php/logout.php" class="w-full py-4 mt-2 bg-orange-600 text-center  rounded-lg text-sm leading-normal font-semibold text-white" type="submit">Cerrar Sesion</a>
             </form>
-            <?php include "./modal_password.php" ?>
+            <?php include "../modales/modal_password.php" ?>
         </div>
     </div>
 

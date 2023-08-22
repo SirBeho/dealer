@@ -38,32 +38,51 @@ Msj() ;
 
 
 function updateModelos() {
-        var marcaId = document.getElementById("marca").value;
-        var modeloSelect = document.getElementById("modelo");
-        
-        // Limpia las opciones actuales del menú de modelos
-        modeloSelect.innerHTML = '<option value=""  selected>Modelo</option>';
-        
-        // Si no se seleccionó una marca, no se realiza la consulta
-        if (marcaId !== "") {
-            // Realiza una solicitud AJAX para obtener los modelos de la marca seleccionada
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var modelos = JSON.parse(xhr.responseText);
-                    modelos.forEach(function(modelo) {
-                        var option = document.createElement("option");
-                        option.value = modelo.id;
-                        option.textContent = modelo.nombre;
-                        modeloSelect.appendChild(option);
-                    });
-                }
-            };
-            
-            xhr.open("GET", "../php/get_modelos_por_marca.php?marcaId=" + marcaId, true);
-            xhr.send();
-        }
+    const marcaId = document.getElementById("marca").value;
+    const modeloSelect = document.getElementById("modelo");
+
+    
+    const modeloSeleccionado = modeloSelect.attributes.value.value;
+    
+
+   
+    console.log(modeloSelect,"hola2");
+    console.log(modeloSeleccionado,"hola3");
+  
+    // Limpia las opciones actuales del menú de modelos
+    modeloSelect.innerHTML = '<option value="" >Modelo</option>';
+
+    // Si no se seleccionó una marca, no se realiza la consulta
+    if (marcaId !== "") {
+        // Realiza una solicitud AJAX para obtener los modelos de la marca seleccionada
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var modelos = JSON.parse(xhr.responseText);
+                modelos.forEach(function (modelo) {
+                    console.log(modelo);
+                    var option = document.createElement("option");
+                    option.value = modelo.id;
+                    option.textContent = modelo.nombre;
+
+                    // Si el modelo coincide con el valor previamente seleccionado, lo preselecciona
+                    if (modelo.id == modeloSeleccionado) {
+                        console.log(modelo.id+"encontrado"+modeloSeleccionado)
+                        option.selected = true;
+                    }
+                    else{
+                        console.log(modelo.id+"no en"+modeloSeleccionado)
+                    }
+
+                    modeloSelect.appendChild(option);
+                });
+            }
+        };
+
+        xhr.open("GET", "../php/get_modelos_por_marca.php?marcaId=" + marcaId, true);
+        xhr.send();
     }
+}
 
 
     

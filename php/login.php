@@ -17,7 +17,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
             $persona = $mysqli -> query("select * from persona join correos on persona.idcorreo = correos.idcorreos join telefono on persona.idtelefono = telefono.idtelefono join usuario on persona.idPersona = usuario.idUsuario where persona.idPersona = '".$resultado['idPersona']."'");
             $persona = $persona-> fetch_assoc();
             $_SESSION['persona'] = $persona;
-            header("Location: ../pages/profile.php");
+            header("Location: ../pages/home.php");
             exit;
         } else {
             $_SESSION['login_email'] = $user;

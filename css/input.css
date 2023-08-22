@@ -23,7 +23,12 @@
   }
 
   
-  textarea,select,input:not([type="checkbox"]){
+  textarea,select,input:not([type="checkbox"],[type="radio"]){
     @apply outline-none;
     @apply w-full;
+  }
+
+
+  a,button {
+    @apply hover:bg-orange-700;
   }

@@ -15,6 +15,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } catch (Exception $e) {
         $_SESSION['error_message'] = Error_SQL($e);
     }
-    header("Location: ../pages/mantenimiento.php");
-    exit;
+   header("Location: ../pages/mantenimiento.php");
+     exit;
 }

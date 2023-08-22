@@ -8,13 +8,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     extract($_POST);
 
-    require("./connection.php");
+    require("../php/connection.php");
     if ($accion == "create") {
         try {
             
             //idVehiculos_Marca    , marca_nombre
 
-            $query = "INSERT INTO usuario (us_dni, us_name, us_lastname, us_addres, us_birth, us_email, us_password, us_permiso, us_status) VALUES ('$dni','$name', '$lastname', '$addres', '$birth', '$email', 'hashedpassword', 3, 1)";
+            $query = "INSERT INTO vehiculos_marcas (marca_nombre) VALUES ('$marca')";
         
             $mysqli->query($query);
             $_SESSION['success_message'] = "Registro agregada correctamente</b>";
@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } elseif ($accion == "update") {
         try {
-            $query = "UPDATE usuario SET us_dni='$dni', us_email='$email', us_name='$name', us_lastname='$lastname', us_addres='$addres', us_birth='$birth' WHERE us_id='$id'";
+            $query = "UPDATE vehiculos_marcas SET marca_nombre='$marca' WHERE idVehiculos_Marca='$id'";
             $mysqli->query($query);
             $_SESSION['success_message'] = "Registro actualizado correctamente";
         } catch (Exception $e) {
@@ -34,6 +34,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    header("Location: ../view/alumnos.php");
+    header("Location: ../pages/mantenimiento.php");
     exit;
 }

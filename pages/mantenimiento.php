@@ -31,6 +31,7 @@ $categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
 </head>
 
 <body>
+    <?php include "./nav.php" ?>
     <script>
         $(document).ready(function() {
             $('#table_marcas').DataTable();
@@ -40,11 +41,11 @@ $categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
         });
     </script>
 
-    <div class="w-screen p-6 ">
+    <div class="w-screen p-6 mt-14">
         <div class="w-full  flex gap-5 items-center relative">
-            <span class="text-2xl font-bold">Your Car spot</span>
+
             <div class="flex gap-5">
-                
+
                 <button mostrar="#marcas" class="activar bg-orange-400 rounded-md p-2 ">Marcas</button>
                 <button mostrar="#modelos" class="activar bg-orange-400 rounded-md p-2">Modelos</button>
                 <button mostrar="#caracteristica" class="activar bg-orange-400 rounded-md p-2">Caracteristica</button>
@@ -62,6 +63,14 @@ $categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
             ?>
         </div>
         <div id="marcas" class="contenedor ">
+            <div class="flex justify-end">
+                <button class="flex items-cent gap-2 bg-green-500 p-2 rounded-md text-white" data-modal-target="marca-modal" data-modal-toggle="marca-modal">
+                    <span>Añadir Marca</span>
+                    <div class="w-5">
+                        <img class="w-full h-full" src="../svg/add.svg" alt="">
+                    </div>
+                </button>
+            </div>
             <table id="table_marcas" class="display table bg-gray-50 py-2 ">
                 <thead>
                     <tr>
@@ -77,22 +86,22 @@ $categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
 
                             while ($datos = $marcas->fetch_assoc()) {
                                 $eliminar = array(
-                                    'query' => "delete from vehiculos_marcas where idVehiculos_Marca = ".$datos['idVehiculos_Marca'],
+                                    'query' => "delete from vehiculos_marcas where idVehiculos_Marca = " . $datos['idVehiculos_Marca'],
                                     'msj' =>  "Eliminar  " . $datos['marca_nombre']
                                 );
-                                    ?>
+                    ?>
                                 <tr>
                                     <td><?php echo $datos['idVehiculos_Marca']; ?></td>
                                     <td><?php echo $datos['marca_nombre']; ?></td>
                                     <td>
-                                    <div class="flex gap-2 w-12 justify-center overflow-hidden bg-transparent">
-                                        <div>
-                                            <img onclick='EditarMarca(<?php echo json_encode($datos); ?>)' data-modal-target="marca-modal" data-modal-toggle="marca-modal" class="cursor-pointer" src="../svg/edit.svg" alt="">
+                                        <div class="flex gap-2 w-12 justify-center overflow-hidden bg-transparent">
+                                            <div>
+                                                <img onclick='EditarMarca(<?php echo json_encode($datos); ?>)' data-modal-target="marca-modal" data-modal-toggle="marca-modal" class="cursor-pointer" src="../svg/edit.svg" alt="">
+                                            </div>
+                                            <div>
+                                                <img onclick='Eliminar(<?php echo json_encode($eliminar); ?> )' data-modal-target="delete-modal" data-modal-toggle="delete-modal" src="../svg/trash.svg" class="cursor-pointer" alt="">
+                                            </div>
                                         </div>
-                                        <div>
-                                        <img onclick='Eliminar(<?php echo json_encode($eliminar); ?> )' data-modal-target="delete-modal" data-modal-toggle="delete-modal" src="../svg/trash.svg" class="cursor-pointer" alt="">
-                                          </div>
-                                    </div>
                                     </td>
                                 </tr>
                     <?php
@@ -114,6 +123,14 @@ $categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
         </div>
 
         <div id="modelos" class="contenedor hidden">
+        <div class="flex justify-end">
+                <button class="flex items-cent gap-2 bg-green-500 p-2 rounded-md text-white" data-modal-target="modelo-modal" data-modal-toggle="modelo-modal">
+                    <span>Añadir Modelo</span>
+                    <div class="w-5">
+                        <img class="w-full h-full" src="../svg/add.svg" alt="">
+                    </div>
+                </button>
+            </div>
             <table id="table_modelos" class=" display table bg-gray-50 py-2 ">
                 <thead>
                     <tr>
@@ -124,29 +141,29 @@ $categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
                     </tr>
                 </thead>
                 <tbody>
-                <?php
+                    <?php
                     if ($modelo) {
                         if ($modelo->num_rows > 0) {
 
                             while ($datos = $modelo->fetch_assoc()) {
                                 $eliminar = array(
-                                    'query' => "delete from vehiculos_modelos where idVehiculos_Modelos = ".$datos['idVehiculos_Marca'],
+                                    'query' => "delete from vehiculos_modelos where idVehiculos_Modelos = " . $datos['idVehiculos_Modelos'],
                                     'msj' =>  "Eliminar  " . $datos['Modelo_nombre']
                                 );
-                                    ?>
+                    ?>
                                 <tr>
                                     <td><?php echo $datos['idVehiculos_Modelos']; ?></td>
                                     <td><?php echo $datos['Modelo_nombre']; ?></td>
                                     <td><?php echo $datos['marca_nombre']; ?></td>
                                     <td>
-                                    <div class="flex gap-2 w-12 justify-center overflow-hidden bg-transparent">
-                                        <div>
-                                            <img onclick='EditarModelo(<?php echo json_encode($datos); ?>)' data-modal-target="modelo-modal" data-modal-toggle="modelo-modal" class="cursor-pointer" src="../svg/edit.svg" alt="">
+                                        <div class="flex gap-2 w-12 justify-center overflow-hidden bg-transparent">
+                                            <div>
+                                                <img onclick='EditarModelo(<?php echo json_encode($datos); ?>)' data-modal-target="modelo-modal" data-modal-toggle="modelo-modal" class="cursor-pointer" src="../svg/edit.svg" alt="">
+                                            </div>
+                                            <div>
+                                                <img onclick='Eliminar(<?php echo json_encode($eliminar); ?> )' data-modal-target="delete-modal" data-modal-toggle="delete-modal" src="../svg/trash.svg" class="cursor-pointer" alt="">
+                                            </div>
                                         </div>
-                                        <div>
-                                        <img onclick='Eliminar(<?php echo json_encode($eliminar); ?> )' data-modal-target="delete-modal" data-modal-toggle="delete-modal" src="../svg/trash.svg" class="cursor-pointer" alt="">
-                                          </div>
-                                    </div>
                                     </td>
                                 </tr>
                     <?php
@@ -169,6 +186,14 @@ $categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
         </div>
 
         <div id="caracteristica" class="contenedor hidden">
+        <div class="flex justify-end">
+                <button class="flex items-cent gap-2 bg-green-500 p-2 rounded-md text-white" data-modal-target="caracteristia-modal" data-modal-toggle="caracteristica-modal">
+                    <span>Añadir Caracteristica</span>
+                    <div class="w-5">
+                        <img class="w-full h-full" src="../svg/add.svg" alt="">
+                    </div>
+                </button>
+            </div>
             <table id="table_caracteristica" class=" display table bg-gray-50 py-2   ">
                 <thead>
                     <tr>
@@ -179,28 +204,28 @@ $categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
                     </tr>
                 </thead>
                 <tbody>
-                <?php
+                    <?php
                     if ($caracteristicas) {
                         if ($caracteristicas->num_rows > 0) {
 
                             while ($datos = $caracteristicas->fetch_assoc()) {
                                 $eliminar = array(
-                                    'query' => "delete from vehiculos_caracteristicas where idVehiculo_Caracteristicas = ".$datos['idVehiculo_Caracteristicas'],
+                                    'query' => "delete from vehiculos_caracteristicas where idVehiculo_Caracteristicas = " . $datos['idVehiculo_Caracteristicas'],
                                     'msj' =>  "Eliminar  " . $datos['Vehiculo_Caracteristica']
                                 );
-                                    ?>
+                    ?>
                                 <tr>
                                     <td><?php echo $datos['idVehiculo_Caracteristicas']; ?></td>
                                     <td><?php echo $datos['Vehiculo_Caracteristica']; ?></td>
                                     <td>
-                                    <div class="flex gap-2 w-12 justify-center overflow-hidden bg-transparent">
-                                        <div>
-                                            <img onclick='EditarCaracteristica(<?php echo json_encode($datos); ?>)' data-modal-target="caracteristica-modal" data-modal-toggle="caracteristica-modal" class="cursor-pointer" src="../svg/edit.svg" alt="">
+                                        <div class="flex gap-2 w-12 justify-center overflow-hidden bg-transparent">
+                                            <div>
+                                                <img onclick='EditarCaracteristica(<?php echo json_encode($datos); ?>)' data-modal-target="caracteristica-modal" data-modal-toggle="caracteristica-modal" class="cursor-pointer" src="../svg/edit.svg" alt="">
+                                            </div>
+                                            <div>
+                                                <img onclick='Eliminar(<?php echo json_encode($eliminar); ?> )' data-modal-target="delete-modal" data-modal-toggle="delete-modal" src="../svg/trash.svg" class="cursor-pointer" alt="">
+                                            </div>
                                         </div>
-                                        <div>
-                                        <img onclick='Eliminar(<?php echo json_encode($eliminar); ?> )' data-modal-target="delete-modal" data-modal-toggle="delete-modal" src="../svg/trash.svg" class="cursor-pointer" alt="">
-                                          </div>
-                                    </div>
                                     </td>
                                 </tr>
                     <?php
@@ -224,6 +249,14 @@ $categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
         </div>
 
         <div id="categoria" class="contenedor hidden">
+        <div class="flex justify-end">
+                <button class="flex items-cent gap-2 bg-green-500 p-2 rounded-md text-white" data-modal-target="categoria-modal" data-modal-toggle="categoria-modal">
+                    <span>Añadir Categoria</span>
+                    <div class="w-5">
+                        <img class="w-full h-full" src="../svg/add.svg" alt="">
+                    </div>
+                </button>
+            </div>
             <table id="table_categoria" class=" display table bg-gray-50 py-2   ">
                 <thead>
                     <tr>
@@ -235,28 +268,28 @@ $categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
                 </thead>
                 <tbody>
 
-                <?php
+                    <?php
                     if ($categoria) {
                         if ($categoria->num_rows > 0) {
 
                             while ($datos = $categoria->fetch_assoc()) {
                                 $eliminar = array(
-                                    'query' => "delete from vehiculo_categoria where idVehiculo_Categoria = ".$datos['idVehiculo_Categoria'],
+                                    'query' => "delete from vehiculo_categoria where idVehiculo_Categoria = " . $datos['idVehiculo_Categoria'],
                                     'msj' =>  "Eliminar  " . $datos['nombre_Categoria']
                                 );
-                                    ?>
+                    ?>
                                 <tr>
                                     <td><?php echo $datos['idVehiculo_Categoria']; ?></td>
                                     <td><?php echo $datos['nombre_Categoria']; ?></td>
                                     <td>
-                                    <div class="flex gap-2 w-12 justify-center overflow-hidden bg-transparent">
-                                        <div>
-                                            <img onclick='EditarCategoria(<?php echo json_encode($datos); ?>)' data-modal-target="categoria-modal" data-modal-toggle="categoria-modal" class="cursor-pointer" src="../svg/edit.svg" alt="">
+                                        <div class="flex gap-2 w-12 justify-center overflow-hidden bg-transparent">
+                                            <div>
+                                                <img onclick='EditarCategoria(<?php echo json_encode($datos); ?>)' data-modal-target="categoria-modal" data-modal-toggle="categoria-modal" class="cursor-pointer" src="../svg/edit.svg" alt="">
+                                            </div>
+                                            <div>
+                                                <img onclick='Eliminar(<?php echo json_encode($eliminar); ?> )' data-modal-target="delete-modal" data-modal-toggle="delete-modal" src="../svg/trash.svg" class="cursor-pointer" alt="">
+                                            </div>
                                         </div>
-                                        <div>
-                                        <img onclick='Eliminar(<?php echo json_encode($eliminar); ?> )' data-modal-target="delete-modal" data-modal-toggle="delete-modal" src="../svg/trash.svg" class="cursor-pointer" alt="">
-                                          </div>
-                                    </div>
                                     </td>
                                 </tr>
                     <?php
@@ -291,4 +324,3 @@ $categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
 </body>
 
 </html>
-
