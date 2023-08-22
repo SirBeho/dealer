@@ -28,23 +28,23 @@
                 
                 <div class="flex items-center gap-3 border border-gray-BD rounded-lg p-3 ps-4">
                     <div class="w-4"><img src="../svg/password.svg" alt="logo"></div>
-                    <input class="outline-none w-full" type="text" name="name" autocomplete="off" placeholder="Nombre" required>
+                    <input class="bg-transparent" type="text" name="name" autocomplete="off" placeholder="Nombre" required>
                 </div>
 
                
                 <div class="flex items-center gap-3 border border-gray-BD rounded-lg p-3 ps-4">
                     <div class="w-4"><img src="../svg/email.svg" alt="logo"></div>
-                    <input class="outline-none w-full " type="email" name="email" autocomplete="off" placeholder="Correo" value="<?php echo isset($_SESSION['login_email']) ? ($_SESSION['login_email']) : '';                                                                                                          unset($_SESSION['login_email']); ?>" required>
+                    <input class="bg-transparent " type="email" name="email" autocomplete="off" placeholder="Correo" value="<?php echo isset($_SESSION['login_email']) ? ($_SESSION['login_email']) : '';                                                                                                          unset($_SESSION['login_email']); ?>" required>
                 </div>
              
                 <div class="flex items-center gap-3 border border-gray-BD rounded-lg p-3 ps-4">
                     <div class="w-4"><img src="../svg/password.svg" alt="logo"></div>
-                    <input class="outline-none w-full" type="text" name="telefono" autocomplete="off" placeholder="Telefono" required>
+                    <input class="bg-transparent" type="text" name="telefono" autocomplete="off" placeholder="Telefono" required>
                 </div>
 
                 <div class="flex items-center gap-3 border border-gray-BD rounded-lg p-3 ps-4">
                     <div class="w-4"><img src="../svg/password.svg" alt="logo"></div>
-                    <input class="outline-none w-full" type="password" name="password" autocomplete="off" placeholder="Contraseña" required>
+                    <input class="bg-transparent" type="password" name="password" autocomplete="off" placeholder="Contraseña" required>
                 </div>
 
 

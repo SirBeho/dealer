@@ -8,7 +8,7 @@ session_start();
 
 // Extraer información del persona de la sesión activa
 extract($_SESSION['persona']);
-
+var_dump($_SESSION['persona']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,19 +35,19 @@ extract($_SESSION['persona']);
             <!-- Formulario de inicio de sesión -->
             <form  method="post" class=" flex  w-full flex-col gap-4 relative text-gray-500">
 
-                <div class="flex items-center gap-3 border border-gray-BD rounded-lg p-3 ps-4">
+                <div class="flex items-center gap-3 border border-gray-BD rounded-lg p-2 ps-4">
                     <div class="w-4"><img src="../svg/password.svg" alt="logo"></div>
-                    <input class="outline-none w-full" type="text" name="name" autocomplete="off" placeholder="Nombre" value="<?php  echo $nombre." ".$apellido?>" disabled>
+                    <input class="bg-transparent " type="text" name="name" autocomplete="off" placeholder="Nombre" value="<?php  echo $nombre." ".$apellido?>" disabled>
                 </div>
 
-                <div class="flex items-center gap-3 border border-gray-BD rounded-lg p-3 ps-4">
+                <div class="flex items-center gap-3 border border-gray-BD rounded-lg p-2 ps-4">
                     <div class="w-4"><img src="../svg/email.svg" alt="logo"></div>
-                    <input class="outline-none w-full " type="email" name="email" autocomplete="off" placeholder="Correo" value="<?php echo $correo?>" disabled>
+                    <input class="bg-transparent  " type="email" name="email" autocomplete="off" placeholder="Correo" value="<?php echo $correo?>" disabled>
                 </div>
              
-                <div class="flex items-center gap-3 border border-gray-BD rounded-lg p-3 ps-4">
+                <div class="flex items-center gap-3 border border-gray-BD rounded-lg p-2 ps-4">
                     <div class="w-4"><img src="../svg/password.svg" alt="logo"></div>
-                    <input class="outline-none w-full" type="text" name="telefono" autocomplete="off" placeholder="Telefono" value="<?php echo $numTel?>" disabled>
+                    <input class="bg-transparent     " type="text" name="telefono" autocomplete="off" placeholder="Telefono" value="<?php echo $numTel?>" disabled>
                 </div>
 
                 <?php
@@ -57,8 +57,9 @@ extract($_SESSION['persona']);
                 }
                 ?>
 
-                <!-- Botón para enviar el formulario -->
-                <a  class="w-full text-center  py-4 mt-2 bg-orange-600 rounded-lg text-sm  font-semibold text-white" type="submit">Vender Vehiculo</a>
+            <?php if ($isInterno) { ?>
+                <a href="./registro.php" class="w-full text-center  py-4 mt-2 bg-orange-600 rounded-lg text-sm  font-semibold text-white" type="submit">Registrar Vehiculo</a>
+            <?php } ?>
                 <a href="./home.php" class="w-full text-center py-4 mt-2 bg-orange-600 rounded-lg text-sm  font-semibold text-white" type="submit">Ver catalogo de Ventas</a>
                 <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" id="edit_password" class="w-full text-center py-4 mt-2 bg-orange-600 rounded-lg text-sm  font-semibold text-white" type="button">Cambiar Contraseña</button>
                 <a href="../php/logout.php" class="w-full py-4 mt-2 bg-orange-600 text-center  rounded-lg text-sm leading-normal font-semibold text-white" type="submit">Cerrar Sesion</a>

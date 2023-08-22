@@ -3,7 +3,7 @@
 const modal_password = document.getElementById('passwordForm');
 /* const password = document.getElementById("edit_password"); // Cambiar Contraseña */
 
-
+if (modal_password) {
 modal_password.addEventListener('submit', function(event) {
     event.preventDefault(); // Evita que el formulario se envíe automáticamente
 
@@ -33,9 +33,44 @@ modal_password.addEventListener('submit', function(event) {
         this.submit();
     }
 });
+}
 
+const enlaces = document.querySelectorAll('.activar');
+let ultimoClickeado = localStorage.getItem('ultimoClickeado'); 
+if (enlaces) {
+  enlaces.forEach(enlace => {
+    enlace.addEventListener('click', () => {
+      // Restaurar el color original de todos los enlaces
+      enlaces.forEach(enlace2 => {
+        enlace2.classList.add('bg-orange-400');
+        enlace2.classList.remove('bg-orange-200');
+      });
 
+      // Cambiar color del enlace clickeado
+      enlace.classList.remove('bg-orange-400');
+      enlace.classList.add('bg-orange-200');
 
+      const mostrarId = enlace.getAttribute('mostrar');
+      const contenidos = document.querySelectorAll('div.contenedor');
+      
+      contenidos.forEach(contenido => {
+        contenido.classList.add('hidden');
+      });
+
+      document.querySelectorAll(mostrarId).forEach(contenido => {
+        contenido.classList.remove('hidden');
+      });
+
+      ultimoClickeado = mostrarId; 
+      localStorage.setItem('ultimoClickeado', ultimoClickeado); 
+    });
+
+    
+    if (ultimoClickeado === enlace.getAttribute('mostrar')) {
+      enlace.click(); 
+    }
+  });
+}
 
     
   

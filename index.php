@@ -26,14 +26,14 @@
             <form action="./php/login.php" method="post" class="w-full flex flex-col gap-4 relative text-gray-500">
                           
                 <!-- Campo para el correo electrónico -->
-                <div class="flex items-center gap-3 border border-gray-BD rounded-lg p-3 ps-4">
+                <div class="flex items-center gap-3 border border-gray-BD rounded-lg p-1 ps-4">
                     <div class="w-4" ><img  src="./svg/email.svg" alt="logo"></div>
-                    <input  class="outline-none w-full " type="text" name="user" autocomplete="off" placeholder="Nombre Usuario" value="<?php echo isset($_SESSION['user']) ? ($_SESSION['user']  ): ''; unset($_SESSION['user']); ?>" required>
+                    <input  class="bg-transparent " type="text" name="user" autocomplete="off" placeholder="Nombre Usuario" value="<?php echo isset($_SESSION['user']) ? ($_SESSION['user']  ): ''; unset($_SESSION['user']); ?>" required>
                 </div>
                 <!-- Campo para la contraseña -->
-                <div class="flex items-center gap-3 border border-gray-BD rounded-lg p-3 ps-4">
+                <div class="flex items-center gap-3 border border-gray-BD rounded-lg p-1 ps-4">
                     <div class="w-4"><img src="./svg/password.svg" alt="logo"></div>
-                    <input class="outline-none w-full" type="password" name="password" autocomplete="off" placeholder="Contraseña" required >
+                    <input class="bg-transparent" type="password" name="password" autocomplete="off" placeholder="Contraseña" required >
                 </div>
             
                 <!-- Mostrar mensaje de error si está configurado -->

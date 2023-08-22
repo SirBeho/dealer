@@ -31,16 +31,16 @@
               
                 <div class="flex items-center gap-3 border border-gray-BD rounded-lg p-3 ps-4">
                     <div class="w-4"><img src="../svg/password.svg" alt="logo"></div>
-                    <input class="outline-none w-full" type="password" name="password1" autocomplete="off" placeholder="Contraseña actual" required>
+                    <input class=" bg-transparent" type="password" name="password1" autocomplete="off" placeholder="Contraseña actual" required>
                 </div>
 
                 <div class="flex items-center gap-3 border border-gray-BD rounded-lg p-3 ps-4">
                     <div class="w-4"><img src="../svg/password.svg" alt="logo"></div>
-                    <input class="outline-none w-full" type="password" name="password2" autocomplete="off" placeholder="Contraseña Nueva" required>
+                    <input class=" bg-transparent" type="password" name="password2" autocomplete="off" placeholder="Contraseña Nueva" required>
                 </div>
                 <div class="flex items-center gap-3 border border-gray-BD rounded-lg p-3 ps-4">
                     <div class="w-4"><img src="../svg/password.svg" alt="logo"></div>
-                    <input class="outline-none w-full" type="password" name="password3" autocomplete="off" placeholder="repetir Contraseña" required>
+                    <input class=" bg-transparent" type="password" name="password3" autocomplete="off" placeholder="repetir Contraseña" required>
                 </div>
 
                 <?php

@@ -29,10 +29,10 @@ $modelo = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
     <div class="w-screen m-6 ">
         <div class="w-full  flex gap-5 items-center">
             <span class="text-2xl font-bold">Your Car spot</span>
-            <div class="flex items-center gap-3 border w-3/5  bg-gray-300 rounded-lg p-3 ps-4">
+           <!--  <div class="flex items-center gap-3 border w-3/5  bg-gray-300 rounded-lg p-3 ps-4">
                 <input class="w-full outline-none bg-transparent text-gray-600" type="text" name="search" placeholder="Buscar">
                 <div class="w-4"><img src="../svg/password.svg" alt="logo"></div>
-            </div>
+            </div> -->
         </div>
         <div class="flex gap-10 m-10">
             <!-- IZQUIERDA -->
@@ -46,7 +46,7 @@ $modelo = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
                             <!-- Resto del código HTML del formulario ... -->
                             <label class="flex flex-col w-full">
                                 <span>Marca</span>
-                                <select class="bg-gray-100 rounded-sm p-2 text-gray-500" name="marca" class="block w-full" placeholder="Marca">
+                                <select  name="marca"  placeholder="Marca">
                                      <option value="" disabled selected>Marca</option>
                                       <?php
                                         if ($marcas) {
@@ -65,7 +65,7 @@ $modelo = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
 
                             <label class="flex flex-col w-full">
                                 <span>Modelo</span>
-                                <select class="bg-gray-100 rounded-sm p-2 text-gray-500" name="modelo" class="block w-full" placeholder="Modelo">
+                                <select name="modelo"  placeholder="Modelo">
                                     <option value="" disabled selected>Modelo</option>
                                     <?php
                                         if ($modelo) {
@@ -84,23 +84,23 @@ $modelo = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
 
                             <label class="flex flex-col w-full">
                                 <span>Año desde</span>
-                                <input class="bg-gray-100 rounded-sm p-2  text-gray-500 outline-none custom-number-input  " type="number" name="anio_min" placeholder="Año" class="block w-full" value="<?php echo $anio_min; ?>">
+                                <input  type="number" name="anio_min" placeholder="Año"  value="<?php echo $anio_min; ?>">
                             </label>
                             <label class="flex flex-col w-full">
                                 <span>Año hasta</span>
-                                <input class="bg-gray-100 rounded-sm p-2  text-gray-500 outline-none custom-number-input  " type="number" name="anio_max" placeholder="Año" class="block w-full" value="<?php echo $anio_max; ?>">
+                                <input  type="number" name="anio_max" placeholder="Año"  value="<?php echo $anio_max; ?>">
                             </label>
                             <label class="flex flex-col w-full">
                                 <span>Precio desde</span>
-                                <input class="bg-gray-100 rounded-sm p-2 text-gray-500 outline-none custom-number-input " type="number" name="precio_min" placeholder="Precio mínimo" class="block w-full" value="<?php echo $precio_min; ?>">
+                                <input  type="number" name="precio_min" placeholder="Precio mínimo"  value="<?php echo $precio_min; ?>">
                             </label>
                             <label class="flex flex-col w-full">
                                 <span>Precio hasta</span>
-                                <input class="bg-gray-100 rounded-sm p-2 text-gray-500 outline-none custom-number-input " type="number" name="precio_max" placeholder="Precio máximo" class="block w-full" value="<?php echo $precio_max; ?>">
+                                <input  type="number" name="precio_max" placeholder="Precio máximo"  value="<?php echo $precio_max; ?>">
                             </label>
                             <label class="flex flex-col w-full">
                                 <span>Estado</span>
-                                <select class="bg-gray-100 rounded-sm p-2 text-gray-500" name="condicion[]" class=" w-full" placeholder="Marca">
+                                <select  name="condicion[]" class=" w-full" placeholder="Marca">
                                     <option value="Nuevo" <?php echo ($condicion === 'Nuevo') ? 'selected' : ''; ?>>Nuevo</option>
                                     <option value="Usado" <?php echo ($condicion === 'Usado') ? 'selected' : ''; ?>>Usado</option>
                                     <option value="" <?php echo ($condicion == '') ? 'selected' : ''; ?>>Ambos</option>
@@ -124,8 +124,6 @@ $modelo = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
                     if ($resultado->num_rows > 0) {
                         while ($datos = $resultado->fetch_assoc()) {
                 ?>
-
-
                             <div class="h-fit bg-gray-300 rounded-xl p-1">
                                 <div class="w-72 h-48 object-fill rounded-xl bg-white overflow-hidden">
                                     <img src="../pictures/<?php echo is_file("../pictures/carro_" . $datos['idVehiculos_Venta']) ? "carro_" . $datos['idVehiculos_Venta'] : "default.jpg" ?> " alt="">

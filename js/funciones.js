@@ -24,8 +24,11 @@ function Msj(){
     const msj = document.getElementById("msj") ;
     
     if(msj){
-        msj.classList.remove("bottom-8"); 
-        msj.classList.add("bottom-0");    
+       
+        setTimeout(() => { 
+            msj.classList.remove("bottom-8"); 
+            msj.classList.add("bottom-0");    
+        }, 1); 
         setTimeout(() => { 
             msj.remove();
         }, 5000); 
@@ -61,3 +64,60 @@ function updateModelos() {
             xhr.send();
         }
     }
+
+
+    
+
+
+function EditarMarca(data) {
+
+    const modal = document.getElementById("marcaForm");
+    document.getElementById("titulo").innerText ="Modificar Marca";
+    modal.accion.value = "update";
+    modal.id.value = data.idVehiculos_Marca;
+    modal.marca.value = data.marca_nombre;
+}
+     
+function EditarModelo(data) {
+
+    const modal = document.getElementById("modeloForm");
+    document.getElementById("titulo").innerText ="Modificar modelo";
+    modal.accion.value = "update";
+    modal.id.value = data.idVehiculos_Modelos;
+    modal.modelo.value = data.Modelo_nombre;
+    modal.marca.value = data.idVehiculos_Marca;
+}
+
+function EditarCaracteristica(data) {
+    
+        const modal = document.getElementById("caracteristicaForm");
+        document.getElementById("titulo").innerText ="Modificar Caracteristica";
+        modal.accion.value = "update";
+        modal.id.value = data.idVehiculo_Caracteristicas;
+        modal.caracteristica.value = data.Vehiculo_Caracteristica;
+       
+    }
+
+    function EditarCategoria(data) {
+    
+        const modal = document.getElementById("categoriaForm");
+        document.getElementById("titulo").innerText ="Modificar Categoria";
+        modal.accion.value = "update";
+        modal.id.value = data.idVehiculo_Categoria;
+        modal.categoria.value = data.nombre_Categoria;
+       
+    }
+  
+
+function Eliminar(data) {
+
+    console.log(data);
+    const formulario = document.getElementById("modalDelete");
+    formulario.query.value = data.query; 
+    formulario.boton.textContent = data.msj.split(" ")[0].toUpperCase();
+    document.getElementById("mensaje").textContent = data.msj;
+               
+  }; 
+
+
+  

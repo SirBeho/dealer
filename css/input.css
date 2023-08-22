@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,5 +10,20 @@
   }
 
   .custom-number-input {
-    -moz-appearance: textfield; /* Firefox */
+    -moz-appearance: textfield; 
+  }
+
+  textarea,select,input{
+    @apply bg-gray-100;
+    @apply rounded-xl;
+    @apply p-2;
+   
+    @apply text-gray-500;
+    @apply custom-number-input;
+  }
+
+  
+  textarea,select,input:not([type="checkbox"]){
+    @apply outline-none;
+    @apply w-full;
   }

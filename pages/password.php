@@ -29,7 +29,7 @@
                              
                 <div class="flex items-center gap-3 border border-gray-BD rounded-lg p-3 ps-4">
                     <div class="w-4"><img src="../svg/email.svg" alt="logo"></div>
-                    <input class="outline-none w-full " type="email" name="email" autocomplete="off" placeholder="Correo" value="<?php echo isset($_SESSION['login_email']) ? ($_SESSION['login_email']) : '';                                                                                                          unset($_SESSION['login_email']); ?>" required>
+                    <input  type="email" name="email" autocomplete="off" placeholder="Correo" value="<?php echo isset($_SESSION['login_email']) ? ($_SESSION['login_email']) : '';                                                                                                          unset($_SESSION['login_email']); ?>" required>
                 </div>
              
                

@@ -1,4 +1,12 @@
-<?php session_start(); ?>
+<?php session_start();
+require("../php/connection.php");
+
+$caracteristicas = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
+$categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
+$marcas = $mysqli->query("SELECT * FROM `vehiculos_marcas`");
+$modelos = $mysqli->query("SELECT * FROM `vehiculos_modelos`")
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,125 +16,161 @@
 
     <link href="../css/output.css" rel="stylesheet">
     <link href="../css/input.css" rel="stylesheet">
-
     <title>Login</title>
-   
+
 </head>
 
 <body>
-    <div class="w-screen m-6 ">
-        <div class="w-full  flex gap-5 items-center">
-            <span class="text-2xl font-bold">Your Car spot</span>
-            <div class="flex items-center gap-3 border w-3/5  bg-gray-300 rounded-lg p-3 ps-4">
-                <input class="w-full outline-none bg-transparent text-gray-600" type="text" name="search" placeholder="Buscar">
-                <div class="w-4"><img src="../svg/password.svg" alt="logo"></div>
+    <div class="w-screen p-6 ">
+        <div class=" flex justify-between items-center mt-2">
+            <span class="text-3xl font-bold ">Registro de Vehiculo</span>
+            <div class="w-20">
+                <img src="../pictures/auto.png" alt="">
             </div>
         </div>
+        <form action="./detalle.php?id=1" method="post" class="flex flex-col gap-6 items-center ">
+            <div class="flex gap-12">
+                <div class="flex flex-col gap-5">
+                    <div class="grid grid-cols-2 gap-4">
+                        <label>
+                            <span>marca</span></br>
+                            <select id="marca" name="marca" onchange="updateModelos()" >
 
-        <form action="../php/buscar.php" method="post" class="mt-14 ">
-            <div class="flex justify-center gap-14  mb-12">
+                                <option value="" selected>Marca</option>
+                                <?php
+                                if ($marcas) {
+                                    if ($marcas->num_rows > 0) {
+                                        while ($datos = $marcas->fetch_assoc()) {
+                                            echo "<option value=\"{$datos['idVehiculos_Marca']}\">{$datos['marca_nombre']}</option>";
+                                        }
+                                    }
+                                    $marcas->free();
+                                } else {
+                                    echo "<option >Error executing the query: " . $mysqli->error . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </label>
+                        <label>
+                            <span>Modelo</span></br>
+                            <select id="modelo" name="modelo" >
 
-                <div class="flex flex-col gap-6 max-w-xs">
-                    <span class="text-3xl font-bold mt-2">Buscar Vehiculo</span>
+                                <option value="" selected>Modelo</option>
+                            </select>
+                        </label>
 
-                    <div class="flex text-xl font-bold text-orange-600 gap-4 ">
+
+                        <label>
+                            <span>Tipo de Vehiculo</span></br>
+                            <select id="categoria" name="categoria" >
+
+                                <option value="" selected>Tipo</option>
+                                <?php
+
+                                if ($categoria) {
+
+                                    if ($categoria->num_rows > 0) {
+                                        while ($datos = $categoria->fetch_assoc()) {
+
+                                            echo "<option value=\"{$datos['idVehiculo_Categoria']}\">{$datos['nombre_Categoria']}</option>";
+                                        }
+                                    }
+                                    $categoria->free();
+                                } else {
+                                    echo "<option >Error executing the query: " . $mysqli->error . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </label>
+
+
+
+                        <label >
+                            <span>Año</span></br>
+                            <input  type="number" name="anio_max" placeholder="Año ">
+                        </label>
+
+
+
+                    </div>
+                    <div class="flex text-xl font-bold  gap-4 ">
                         Condición:
                         <label>
-                            <input class="outline outline-orange-600" type="checkbox" name="condicion[]" value="Nuevo"> Nuevo
+                            <input  type="checkbox" name="condicion[]" value="1"> Nuevo
                         </label>
                         <label>
-                            <input class="outline outline-orange-600" type="checkbox" name="condicion[]" value="Usado"> Usado
+                            <input  type="checkbox" name="condicion[]" value="0"> Usado
                         </label>
                     </div>
+                    <div>
+                        <span>Caracteristicas</span>
+                        <div class="grid grid-cols-2 gap-1 gap-x-14 h-80  pr-4 ">
 
-                    <div class="grid grid-cols-2 gap-4">
+                            <?php
+                            if ($caracteristicas) {
+                                if ($caracteristicas->num_rows > 0) {
 
-
-                        <select class="bg-gray-100 rounded-sm p-2 text-gray-500" name="marca" class="block w-full" placeholder="Marca">
-                            <option value="Toyota">Toyota</option>
-                            <option value="Honda">Honda</option>
-                            <!-- Agregar otras marcas aquí -->
-                        </select>
-
-                        <select class="bg-gray-100 rounded-sm p-2 text-gray-500" name="modelo" class="block w-full" placeholder="Modelo">
-                            <option value="Toyota">Toyota</option>
-                            <option value="Honda">Honda</option>
-                        </select>
-
-                        <label class="bg-gray-100 rounded-sm p-2">
-
-                            <input class="bg-transparent text-gray-500 outline-none custom-number-input " type="number" name="anio_min" placeholder="Año mínimo"  class="block w-full">
-                        </label>
-                        <label class="bg-gray-100 rounded-sm p-2">
-
-                            <input class="bg-transparent text-gray-500 outline-none custom-number-input  " type="number" name="anio_max" placeholder="Año máximo" class="block w-full">
-                        </label>
-                        <label class="bg-gray-100 rounded-sm p-2">
-
-                            <input class="bg-transparent text-gray-500 outline-none custom-number-input " type="number" name="precio_min" placeholder="Precio mínimo" class="block w-full">
-                        </label>
-                        <label class="bg-gray-100 rounded-sm p-2 appearance-none">
-
-                            <input class="bg-transparent text-gray-500 outline-none custom-number-input " type="number" name="precio_max" placeholder="Precio máximo" class="block w-full">
-                        </label>
-                        
+                                    while ($datos = $caracteristicas->fetch_assoc()) {
+                            ?>
+                                        <label class="  ">
+                                            <input  type="checkbox" name="tipo[]" value="<?php echo $datos['idVehiculo_Categoria'] ?>">
+                                            &nbsp;<?php echo $datos['nombre_Categoria'] ?>
+                                        </label>
+                            <?php
+                                    }
+                                }
+                                $caracteristicas->free();
+                            } else {
+                                echo "<option >Error executing the query: " . $mysqli->error . "</option>";
+                            }
+                            ?>
+                        </div>
                     </div>
-
-
-
-
+                    <label >
+                        <span>Precio</span>
+                        <input  type="number" name="precio" placeholder="Precio ">
+                    </label>
                 </div>
+                <div class="flex flex-col gap-5 text-xl font-bold   ">
+                    <span>Datos tecnicos</span>
+                    <label >
+                        <span>Motor</span></br>
+                        <input  type="number" name="precio" placeholder="Precio ">
+                    </label>
 
-                <div class="flex flex-col gap-8">
-                    <span class="text-3xl font-bold">Tipo Vehiculo</span>
-                    <div class="grid grid-cols-2 gap-6 gap-x-14   text-white">
-                        <label class="bg-orange-600 rounded-lg p-1 text-center">
-                            <input class="text-white" type="checkbox" name="tipo[]" value="Sedán"> Sedán
-                        </label>
-                        <label class="bg-orange-600 rounded-lg p-1 text-center">
-                            <input type="checkbox" name="tipo[]" value="Sedán"> Sedán
-                        </label >
-                        <label class="bg-orange-600 rounded-lg p-1 text-center">
-                            <input type="checkbox" name="tipo[]" value="Sedán"> Sedán
-                        </label>
-                        <label class="bg-orange-600 rounded-lg p-1 text-center">
-                            <input type="checkbox" name="tipo[]" value="Sedán"> Sedán
-                        </label>
-
-                        <label class="bg-orange-600 rounded-lg p-1 text-center">
-                            <input type="checkbox" name="tipo[]" value="SUV"> SUV
-                        </label>
-
-                        <label class="bg-orange-600 rounded-lg p-1 text-center">
-                            <input type="checkbox" name="tipo[]" value="Camioneta"> Camioneta
-                        </label>
-                        <label class="bg-orange-600 rounded-lg p-1 text-center">
-                            <input type="checkbox" name="tipo[]" value="Camioneta"> Camioneta
-                        </label>
-                        <label class="bg-orange-600 rounded-lg p-1 text-center">
-                            <input type="checkbox" name="tipo[]" value="Camioneta"> Camioneta
-                        </label>
-                        <label class="bg-orange-600 rounded-lg p-1 text-center">
-                            <input type="checkbox" name="tipo[]" value="Camioneta"> Camioneta
-                        </label>
-                        <label class="bg-orange-600 rounded-lg p-1 text-center">
-                            <input type="checkbox" name="tipo[]" value="Camioneta"> Camioneta
-                        </label>
-
-
-                    </div>
+                    <label >
+                        <span>Trasmision</span></br>
+                        <input  type="number" name="precio" placeholder="Precio ">
+                    </label>
+                    <label >
+                        <span>Traccion</span></br>
+                        <input  type="number" name="precio" placeholder="Precio ">
+                    </label>
+                    <label >
+                        <span>Pasajeros</span></br>
+                        <input  type="number" name="precio" placeholder="Precio ">
+                    </label>
+                    <label >
+                        <span>Puertas</span></br>
+                        <input  type="number" name="precio" placeholder="Precio ">
+                    </label>
                 </div>
-
             </div>
-            <div class="flex flex-col items-center w-full gap-14">
-                <button class="text-center w-28 py-4 bg-orange-600 rounded-lg text-sm leading-normal font-semibold text-white"  type="submit" >Buscar</button>
-                <a class="text-center w-44 py-4 bg-orange-600 rounded-lg text-sm leading-normal font-semibold text-white">Vender tu carro</a>
+            <div class="w-full max-w-sm  ">
+
+                <label class="  ">
+                    <span>Descripcion</span>
+                    <textarea  rows="5" name="precio" placeholder="Escriba una descripcion sobre su vehiculo "></textarea>
+                </label>
+                <label>
+                    <span>Subir Fotos</span>
+                    <input type="file" class="hidden">
+
+                </label>
+                
+                <button  class="w-full text-center  py-4 mt-5 bg-orange-600 rounded-lg text-sm  font-semibold text-white" type="submit">Registrar Vehiculo</a>
             </div>
-        </form>
-
-    </div> 
-
+        </div>
+    </div>
 </body>
-
-
 </html>
