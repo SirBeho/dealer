@@ -7,17 +7,19 @@ if (!isset($_GET["id"])) {
 }
 
 $caracteristicas = $mysqli->query("SELECT * FROM caracteristicasvsvehiculoventa join vehiculo_caracteristicas on vehiculo_caracteristicas.idVehiculo_Caracteristicas = caracteristicasvsvehiculoventa.IdCaracteristica where IdVehiculoVenta =" . $_GET["id"]);
-$resultado = $mysqli->query("SELECT * from vehiculos_venta left JOIN vehiculos_modelos on idVehiculos_Modelos = vehiculo_modelo  join vehiculos_marcas on vehiculos_modelos.marca = vehiculos_marcas.idVehiculos_Marca join vehiculo_categoria on vehiculos_venta.vehiculo_Categoria = vehiculo_categoria.idVehiculo_Categoria where vehiculos_venta.idVehiculos_Venta =" . $_GET["id"])->fetch_assoc();
+$resultado = $mysqli->query("SELECT * from vehiculos_venta JOIN vehiculos_modelos on idVehiculos_Modelos = vehiculo_modelo  join vehiculos_marcas on vehiculos_modelos.marca = vehiculos_marcas.idVehiculos_Marca join vehiculo_categoria on vehiculos_venta.vehiculo_Categoria = vehiculo_categoria.idVehiculo_Categoria where vehiculos_venta.idVehiculos_Venta =" . $_GET["id"])->fetch_assoc();
 if ($resultado==null) {
     header("Location: ./home.php");
     die();
 }
 extract($resultado);
 
-/* $data = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
+/* 
+$data = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
 $categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
 $marcas = $mysqli->query("SELECT * FROM `vehiculos_marcas`");
-$modelos = $mysqli->query("SELECT * FROM `vehiculos_modelos`"); */
+$modelos = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
+*/
 
 ?>
 <!DOCTYPE html>
@@ -46,7 +48,6 @@ $modelos = $mysqli->query("SELECT * FROM `vehiculos_modelos`"); */
             </a>
 
         </span>
-        
 
         <div class="flex  gap-6 justify-center ">
 
@@ -82,7 +83,6 @@ $modelos = $mysqli->query("SELECT * FROM `vehiculos_modelos`"); */
                         <span>Traccion: <span class="text-gray-500"><?php echo $traccion; ?> </span></span>
                         <span>Pasajeros: <span class="text-gray-500"><?php echo $pasajeros; ?> </span></span>
                         <span>Puertas: <span class="text-gray-500"><?php echo $puertas; ?> </span></span>
-
                     </div>
 
                 </div>
