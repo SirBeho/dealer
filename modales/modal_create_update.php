@@ -105,7 +105,7 @@
             <span id="titulo" class="text-xl font-medium text-gray-900 dark:text-white">Agregar Caracteristica</span>
         </div>
 
-        <form action="../controller/caracteristica_create_update.php" id="caracteristicaForm" method="post" class="space-y-6 relative" action="#">
+        <form action="../controller/caracteristicas_create_update.php" id="caracteristicaForm" method="post" class="space-y-6 relative" action="#">
             <input type="hidden" name="accion" value="create">
             <input type="hidden" name="id">
 

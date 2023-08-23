@@ -12,8 +12,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($accion == "create") {
         try {
             
-            //idVehiculos_Marca    , marca_nombre
-
             $query = "INSERT INTO vehiculos_marcas (marca_nombre) VALUES ('$marca')";
         
             $mysqli->query($query);

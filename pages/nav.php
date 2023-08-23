@@ -45,7 +45,7 @@ extract($_SESSION['persona']);
             <!-- Opción 2: Ir a la página de chat de grupo -->
             <a href="./mantenimiento.php" class="flex items-center gap-2 p-2 mb-2 hover:bg-gray-100 rounded-xl cursor-pointer">
                 <div class="w-5">
-                    <img src="../svg/groupchat.svg" alt="">
+                    <img src="../svg/ajustes.svg" alt="">
                 </div>
                 <span>Mantenimientos</span>
             </a>

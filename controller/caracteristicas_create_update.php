@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } elseif ($accion == "update") {
         try {
-            $query = "UPDATE vehiculo_caracteristicas SET vehiculo_caracteristica='$caracteristica' WHERE idVehiculo_Caracteristica='$id'";
+            $query = "UPDATE vehiculo_caracteristicas SET Vehiculo_Caracteristica='$caracteristica' WHERE idVehiculo_Caracteristicas='$id'";
             $mysqli->query($query);
             $_SESSION['success_message'] = "Registro actualizado correctamente";
         } catch (Exception $e) {
@@ -34,6 +34,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    header("Location: ../pages/mantenimiento.php");
-    exit;
+  header("Location: ../pages/mantenimiento.php");
+   exit;
 }

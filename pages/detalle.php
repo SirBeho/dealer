@@ -114,7 +114,10 @@ $modelos = $mysqli->query("SELECT * FROM `vehiculos_modelos`"); */
                     <span>Benjmanin Tavarez</span>
                     <button class="w-full text-center p-2 bg-orange-600 rounded-lg text-sm  font-semibold text-white" type="submit">Solicitar test Driver</button>
                     <span>809-889-2235</span>
+                    <form action="./compra.php" method="post">
+                        <input type="hidden" name="id" value="<?php echo $_GET["id"] ?>">
                     <button class="w-full text-center  p-2 bg-orange-600 rounded-lg text-sm  font-semibold text-white" type="submit">Agendar Compra</button>
+                    </form>
                 </div>
             </div>
         </div>

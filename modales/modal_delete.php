@@ -11,7 +11,7 @@
 
         <h3 id="titutlo" class="pb-2 mb-4 border-b-2 text-xl font-medium text-gray-900 dark:text-white px-6 lg:px-8">Retiro de asignaturas</h3>
 
-        <form action="../php/eliminar.php" id="modalDelete" method="post" class="space-y-6 relative px-6 lg:px-8">
+        <form action="../controller/eliminar.php" id="modalDelete" method="post" class="space-y-6 relative px-6 lg:px-8">
            
         <label  class="block text-lg font-medium text-gray-900 dark:text-white">
                 ¿Está seguro de que desea <span disabled class="font-extrabold" id="mensaje"> </span>?

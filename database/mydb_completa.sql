@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 16-08-2023 a las 16:48:13
+-- Tiempo de generación: 22-08-2023 a las 23:41:27
 -- Versión del servidor: 8.0.31
 -- Versión de PHP: 8.2.0
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `mydb`
+-- Base de datos: `my_db`
 --
 
 -- --------------------------------------------------------
@@ -64,18 +64,31 @@ INSERT INTO `caracteristicasvsvehiculoventa` (`IdCaracteristica`, `IdVehiculoVen
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `categorias`
+--
+
+DROP TABLE IF EXISTS `categorias`;
+CREATE TABLE IF NOT EXISTS `categorias` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `descripcion` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `cliente`
 --
 
 DROP TABLE IF EXISTS `cliente`;
 CREATE TABLE IF NOT EXISTS `cliente` (
-  `idCliente` int NOT NULL,
+  `idCliente` int NOT NULL AUTO_INCREMENT,
   `idPersona` int NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `apellido` varchar(45) NOT NULL,
   PRIMARY KEY (`idCliente`),
   KEY `persona_idx` (`idPersona`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `cliente`
@@ -111,10 +124,10 @@ INSERT INTO `cliente` (`idCliente`, `idPersona`, `nombre`, `apellido`) VALUES
 
 DROP TABLE IF EXISTS `correos`;
 CREATE TABLE IF NOT EXISTS `correos` (
-  `idcorreos` int NOT NULL,
+  `idcorreos` int NOT NULL AUTO_INCREMENT,
   `correo` varchar(45) NOT NULL,
   PRIMARY KEY (`idcorreos`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `correos`
@@ -145,17 +158,30 @@ INSERT INTO `correos` (`idcorreos`, `correo`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `cursos`
+--
+
+DROP TABLE IF EXISTS `cursos`;
+CREATE TABLE IF NOT EXISTS `cursos` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `departamento`
 --
 
 DROP TABLE IF EXISTS `departamento`;
 CREATE TABLE IF NOT EXISTS `departamento` (
-  `idDepartamento` int NOT NULL,
+  `idDepartamento` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
   `ubicacion` varchar(100) NOT NULL,
   `descripcion` text,
   PRIMARY KEY (`idDepartamento`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `departamento`
@@ -191,7 +217,7 @@ INSERT INTO `departamento` (`idDepartamento`, `nombre`, `ubicacion`, `descripcio
 
 DROP TABLE IF EXISTS `direccion`;
 CREATE TABLE IF NOT EXISTS `direccion` (
-  `idDireccion` int NOT NULL,
+  `idDireccion` int NOT NULL AUTO_INCREMENT,
   `idPersona` int NOT NULL,
   `direccion1` varchar(45) NOT NULL,
   `direccion2` varchar(45) NOT NULL,
@@ -202,7 +228,7 @@ CREATE TABLE IF NOT EXISTS `direccion` (
   KEY `provinca_idx` (`idProvincia`),
   KEY `sector_idx` (`idSector`),
   KEY `tipodir_idx` (`tipoDireccion`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `direccion`
@@ -238,7 +264,7 @@ INSERT INTO `direccion` (`idDireccion`, `idPersona`, `direccion1`, `direccion2`,
 
 DROP TABLE IF EXISTS `empleado`;
 CREATE TABLE IF NOT EXISTS `empleado` (
-  `idempleado` int NOT NULL,
+  `idempleado` int NOT NULL AUTO_INCREMENT,
   `idPersona` int NOT NULL,
   `codEmpleado` int NOT NULL,
   `Departamento` int NOT NULL,
@@ -250,7 +276,7 @@ CREATE TABLE IF NOT EXISTS `empleado` (
   KEY `persona_idx` (`idPersona`),
   KEY `tipoEmpl_idx` (`tipoEmpleado`),
   KEY `departamento_idx` (`Departamento`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `empleado`
@@ -304,12 +330,36 @@ INSERT INTO `estadospagos` (`idEstadosPagos`, `descripcion`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `favoritos`
+--
+
+DROP TABLE IF EXISTS `favoritos`;
+CREATE TABLE IF NOT EXISTS `favoritos` (
+  `idFavorito` int NOT NULL AUTO_INCREMENT,
+  `idUsuario` int DEFAULT NULL,
+  `idVehiculo` int DEFAULT NULL,
+  PRIMARY KEY (`idFavorito`),
+  KEY `idUsuario` (`idUsuario`),
+  KEY `idVehiculo` (`idVehiculo`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
+
+--
+-- Volcado de datos para la tabla `favoritos`
+--
+
+INSERT INTO `favoritos` (`idFavorito`, `idUsuario`, `idVehiculo`) VALUES
+(1, 1, 1),
+(2, 1, 11);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `pagoscli`
 --
 
 DROP TABLE IF EXISTS `pagoscli`;
 CREATE TABLE IF NOT EXISTS `pagoscli` (
-  `idPagosCli` int NOT NULL,
+  `idPagosCli` int NOT NULL AUTO_INCREMENT,
   `idCliente` int NOT NULL,
   `idVehiculoVendido` int NOT NULL,
   `EstadoPago` int NOT NULL,
@@ -320,7 +370,7 @@ CREATE TABLE IF NOT EXISTS `pagoscli` (
   KEY `cliente_idx` (`idCliente`),
   KEY `vehiculoVendido_idx` (`idVehiculoVendido`),
   KEY `estadosPago_idx` (`EstadoPago`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `pagoscli`
@@ -351,12 +401,25 @@ INSERT INTO `pagoscli` (`idPagosCli`, `idCliente`, `idVehiculoVendido`, `EstadoP
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `paises`
+--
+
+DROP TABLE IF EXISTS `paises`;
+CREATE TABLE IF NOT EXISTS `paises` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `pais` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `persona`
 --
 
 DROP TABLE IF EXISTS `persona`;
 CREATE TABLE IF NOT EXISTS `persona` (
-  `idPersona` int NOT NULL,
+  `idPersona` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `apellido` varchar(45) NOT NULL,
   `sexo` varchar(45) NOT NULL,
@@ -370,7 +433,7 @@ CREATE TABLE IF NOT EXISTS `persona` (
   KEY `correo_idx` (`idcorreo`),
   KEY `telefono_idx` (`idtelefono`),
   KEY `direccion_idx` (`idDireccion`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `persona`
@@ -406,7 +469,7 @@ INSERT INTO `persona` (`idPersona`, `nombre`, `apellido`, `sexo`, `doc_identidad
 
 DROP TABLE IF EXISTS `polizasseguros`;
 CREATE TABLE IF NOT EXISTS `polizasseguros` (
-  `idPolizasSeguros` int NOT NULL,
+  `idPolizasSeguros` int NOT NULL AUTO_INCREMENT,
   `vehiculo` int NOT NULL,
   `aseguradora` int NOT NULL,
   `fechaInicio` date NOT NULL,
@@ -425,13 +488,13 @@ CREATE TABLE IF NOT EXISTS `polizasseguros` (
 
 DROP TABLE IF EXISTS `preferenciasclientes`;
 CREATE TABLE IF NOT EXISTS `preferenciasclientes` (
-  `idPreferenciasClientes` int NOT NULL,
+  `idPreferenciasClientes` int NOT NULL AUTO_INCREMENT,
   `CaractVehiculoP` int NOT NULL,
   `IdCliente` int NOT NULL,
   PRIMARY KEY (`idPreferenciasClientes`),
   KEY `IdCliPrefClie_idx` (`IdCliente`),
   KEY `PrefCliVehi_idx` (`CaractVehiculoP`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `preferenciasclientes`
@@ -467,7 +530,7 @@ INSERT INTO `preferenciasclientes` (`idPreferenciasClientes`, `CaractVehiculoP`,
 
 DROP TABLE IF EXISTS `prestvehiculo`;
 CREATE TABLE IF NOT EXISTS `prestvehiculo` (
-  `idPrestVehiculo` int NOT NULL,
+  `idPrestVehiculo` int NOT NULL AUTO_INCREMENT,
   `vehiculo` int NOT NULL,
   `fechaInicio` date NOT NULL,
   `fechaCulminacion` date NOT NULL,
@@ -484,10 +547,10 @@ CREATE TABLE IF NOT EXISTS `prestvehiculo` (
 
 DROP TABLE IF EXISTS `provincia`;
 CREATE TABLE IF NOT EXISTS `provincia` (
-  `idprovincia` int NOT NULL,
+  `idprovincia` int NOT NULL AUTO_INCREMENT,
   `nomProv` varchar(45) NOT NULL,
   PRIMARY KEY (`idprovincia`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `provincia`
@@ -518,15 +581,52 @@ INSERT INTO `provincia` (`idprovincia`, `nomProv`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `registro`
+--
+
+DROP TABLE IF EXISTS `registro`;
+CREATE TABLE IF NOT EXISTS `registro` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_usuario` int DEFAULT NULL,
+  `id_sub_categoria` int DEFAULT NULL,
+  `meta_fecha` int DEFAULT NULL,
+  `que` text,
+  `porque` text,
+  `como` text,
+  `cuando` text,
+  `donde` text,
+  `conquien` text,
+  `costo` text,
+  PRIMARY KEY (`id`),
+  KEY `asd_idx` (`id_sub_categoria`),
+  KEY `registro_usuario_idx` (`id_usuario`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `roles`
+--
+
+DROP TABLE IF EXISTS `roles`;
+CREATE TABLE IF NOT EXISTS `roles` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `descripcion` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `sector`
 --
 
 DROP TABLE IF EXISTS `sector`;
 CREATE TABLE IF NOT EXISTS `sector` (
-  `idSector` int NOT NULL,
+  `idSector` int NOT NULL AUTO_INCREMENT,
   `nomSector` varchar(45) NOT NULL,
   PRIMARY KEY (`idSector`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `sector`
@@ -562,9 +662,24 @@ INSERT INTO `sector` (`idSector`, `nomSector`) VALUES
 
 DROP TABLE IF EXISTS `seguros`;
 CREATE TABLE IF NOT EXISTS `seguros` (
-  `idSeguros` int NOT NULL,
+  `idSeguros` int NOT NULL AUTO_INCREMENT,
   `nomSeguro` varchar(45) NOT NULL,
   PRIMARY KEY (`idSeguros`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `sub_categorias`
+--
+
+DROP TABLE IF EXISTS `sub_categorias`;
+CREATE TABLE IF NOT EXISTS `sub_categorias` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `descripcion` varchar(45) DEFAULT NULL,
+  `id_categoria` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `sub_catecogia_categoria_idx` (`id_categoria`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
@@ -575,12 +690,12 @@ CREATE TABLE IF NOT EXISTS `seguros` (
 
 DROP TABLE IF EXISTS `telefono`;
 CREATE TABLE IF NOT EXISTS `telefono` (
-  `idtelefono` int NOT NULL,
+  `idtelefono` int NOT NULL AUTO_INCREMENT,
   `tipoTel` int NOT NULL,
   `numTel` varchar(45) NOT NULL,
   PRIMARY KEY (`idtelefono`),
   KEY `tipoTel_idx` (`tipoTel`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `telefono`
@@ -616,10 +731,10 @@ INSERT INTO `telefono` (`idtelefono`, `tipoTel`, `numTel`) VALUES
 
 DROP TABLE IF EXISTS `tipodireccion`;
 CREATE TABLE IF NOT EXISTS `tipodireccion` (
-  `idtipoDireccion` int NOT NULL,
+  `idtipoDireccion` int NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(45) NOT NULL,
   PRIMARY KEY (`idtipoDireccion`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `tipodireccion`
@@ -642,10 +757,10 @@ INSERT INTO `tipodireccion` (`idtipoDireccion`, `descripcion`) VALUES
 
 DROP TABLE IF EXISTS `tipoempleado`;
 CREATE TABLE IF NOT EXISTS `tipoempleado` (
-  `idtipoEmpleado` int NOT NULL,
+  `idtipoEmpleado` int NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(45) NOT NULL,
   PRIMARY KEY (`idtipoEmpleado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `tipoempleado`
@@ -666,10 +781,10 @@ INSERT INTO `tipoempleado` (`idtipoEmpleado`, `descripcion`) VALUES
 
 DROP TABLE IF EXISTS `tipopersona`;
 CREATE TABLE IF NOT EXISTS `tipopersona` (
-  `idTipoPersona` int NOT NULL,
+  `idTipoPersona` int NOT NULL AUTO_INCREMENT,
   `TipoPersonaDescrip` varchar(45) NOT NULL,
   PRIMARY KEY (`idTipoPersona`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `tipopersona`
@@ -692,10 +807,10 @@ INSERT INTO `tipopersona` (`idTipoPersona`, `TipoPersonaDescrip`) VALUES
 
 DROP TABLE IF EXISTS `tipotelefono`;
 CREATE TABLE IF NOT EXISTS `tipotelefono` (
-  `idtipoTelefono` int NOT NULL,
+  `idtipoTelefono` int NOT NULL AUTO_INCREMENT,
   `tipoTel` varchar(45) NOT NULL,
   PRIMARY KEY (`idtipoTelefono`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `tipotelefono`
@@ -711,25 +826,51 @@ INSERT INTO `tipotelefono` (`idtipoTelefono`, `tipoTel`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `usuairos`
+--
+
+DROP TABLE IF EXISTS `usuairos`;
+CREATE TABLE IF NOT EXISTS `usuairos` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) DEFAULT NULL,
+  `apellido` varchar(45) DEFAULT NULL,
+  `correo` varchar(45) DEFAULT NULL,
+  `contraseña` varchar(80) DEFAULT NULL,
+  `id_curso` int DEFAULT NULL,
+  `id_rol` int DEFAULT NULL,
+  `create_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `update_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `status` tinyint(1) DEFAULT '1',
+  `pais` int DEFAULT NULL,
+  `vision` text,
+  PRIMARY KEY (`id`),
+  KEY `usuario_curso_idx` (`id_curso`),
+  KEY `usuario_rol_idx` (`id_rol`),
+  KEY `usuario_pais_idx` (`pais`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `usuario`
 --
 
 DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE IF NOT EXISTS `usuario` (
-  `idUsuario` int NOT NULL,
+  `idUsuario` int NOT NULL AUTO_INCREMENT,
   `NombreUser` varchar(45) NOT NULL,
   `PasswUser` varchar(45) NOT NULL,
   `idPersona` int NOT NULL,
-  `interno` tinyint(1) NOT NULL,
+  `isInterno` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`idUsuario`),
   KEY `persona_idx` (`idPersona`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`idUsuario`, `NombreUser`, `PasswUser`, `idPersona`, `interno`) VALUES
+INSERT INTO `usuario` (`idUsuario`, `NombreUser`, `PasswUser`, `idPersona`, `isInterno`) VALUES
 (1, 'admin', 'admin', 1, 1),
 (2, 'user', 'user', 2, 0),
 (3, 'pedro_ramirez', 'password3', 3, 1),
@@ -759,11 +900,11 @@ INSERT INTO `usuario` (`idUsuario`, `NombreUser`, `PasswUser`, `idPersona`, `int
 
 DROP TABLE IF EXISTS `vehiculos_marcas`;
 CREATE TABLE IF NOT EXISTS `vehiculos_marcas` (
-  `idVehiculos_Marca` int NOT NULL,
+  `idVehiculos_Marca` int NOT NULL AUTO_INCREMENT,
   `marca_nombre` varchar(45) NOT NULL,
   PRIMARY KEY (`idVehiculos_Marca`),
   UNIQUE KEY `marca_nombre_UNIQUE` (`marca_nombre`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `vehiculos_marcas`
@@ -784,14 +925,14 @@ INSERT INTO `vehiculos_marcas` (`idVehiculos_Marca`, `marca_nombre`) VALUES
 
 DROP TABLE IF EXISTS `vehiculos_modelos`;
 CREATE TABLE IF NOT EXISTS `vehiculos_modelos` (
-  `idVehiculos_Modelos` int NOT NULL,
+  `idVehiculos_Modelos` int NOT NULL AUTO_INCREMENT,
   `Modelo_nombre` varchar(45) NOT NULL,
   `marca` int NOT NULL,
   PRIMARY KEY (`idVehiculos_Modelos`),
   UNIQUE KEY `idVehiculos_Modelos_UNIQUE` (`idVehiculos_Modelos`),
   UNIQUE KEY `Modelo_nombre_UNIQUE` (`Modelo_nombre`),
   KEY `marca` (`marca`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `vehiculos_modelos`
@@ -827,7 +968,7 @@ INSERT INTO `vehiculos_modelos` (`idVehiculos_Modelos`, `Modelo_nombre`, `marca`
 
 DROP TABLE IF EXISTS `vehiculos_vendidos`;
 CREATE TABLE IF NOT EXISTS `vehiculos_vendidos` (
-  `idVehiculos_Vendidos` int NOT NULL,
+  `idVehiculos_Vendidos` int NOT NULL AUTO_INCREMENT,
   `idVehiculoVenta` int NOT NULL,
   `idCliente` int NOT NULL,
   `PrecioAcordado` float NOT NULL,
@@ -836,7 +977,7 @@ CREATE TABLE IF NOT EXISTS `vehiculos_vendidos` (
   PRIMARY KEY (`idVehiculos_Vendidos`),
   KEY `vehiculoVenta_idx` (`idVehiculoVenta`),
   KEY `cliente_idx` (`idCliente`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `vehiculos_vendidos`
@@ -872,7 +1013,7 @@ INSERT INTO `vehiculos_vendidos` (`idVehiculos_Vendidos`, `idVehiculoVenta`, `id
 
 DROP TABLE IF EXISTS `vehiculos_venta`;
 CREATE TABLE IF NOT EXISTS `vehiculos_venta` (
-  `idVehiculos_Venta` int NOT NULL,
+  `idVehiculos_Venta` int NOT NULL AUTO_INCREMENT,
   `precio` float NOT NULL,
   `millage` float NOT NULL,
   `fecha_adquisicion` date NOT NULL,
@@ -884,7 +1025,7 @@ CREATE TABLE IF NOT EXISTS `vehiculos_venta` (
   PRIMARY KEY (`idVehiculos_Venta`),
   UNIQUE KEY `vehiculo_modelo_UNIQUE` (`vehiculo_modelo`),
   KEY `categoria_idx` (`vehiculo_Categoria`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `vehiculos_venta`
@@ -920,10 +1061,10 @@ INSERT INTO `vehiculos_venta` (`idVehiculos_Venta`, `precio`, `millage`, `fecha_
 
 DROP TABLE IF EXISTS `vehiculo_caracteristicas`;
 CREATE TABLE IF NOT EXISTS `vehiculo_caracteristicas` (
-  `idVehiculo_Caracteristicas` int NOT NULL,
+  `idVehiculo_Caracteristicas` int NOT NULL AUTO_INCREMENT,
   `Vehiculo_Caracteristica` varchar(45) NOT NULL,
   PRIMARY KEY (`idVehiculo_Caracteristicas`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `vehiculo_caracteristicas`
@@ -959,10 +1100,10 @@ INSERT INTO `vehiculo_caracteristicas` (`idVehiculo_Caracteristicas`, `Vehiculo_
 
 DROP TABLE IF EXISTS `vehiculo_categoria`;
 CREATE TABLE IF NOT EXISTS `vehiculo_categoria` (
-  `idVehiculo_Categoria` int NOT NULL,
+  `idVehiculo_Categoria` int NOT NULL AUTO_INCREMENT,
   `nombre_Categoria` varchar(45) NOT NULL,
   PRIMARY KEY (`idVehiculo_Categoria`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `vehiculo_categoria`
@@ -978,7 +1119,6 @@ INSERT INTO `vehiculo_categoria` (`idVehiculo_Categoria`, `nombre_Categoria`) VA
 (7, 'Convertible'),
 (8, 'Minivan'),
 (9, 'Coupé'),
-(10, 'Furgoneta'),
 (11, 'Todo Terreno'),
 (12, 'Eléctrico'),
 (13, 'Compacto'),
@@ -1024,6 +1164,13 @@ ALTER TABLE `empleado`
   ADD CONSTRAINT `tipoEmpl` FOREIGN KEY (`tipoEmpleado`) REFERENCES `tipoempleado` (`idtipoEmpleado`);
 
 --
+-- Filtros para la tabla `favoritos`
+--
+ALTER TABLE `favoritos`
+  ADD CONSTRAINT `favoritos_ibfk_1` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`),
+  ADD CONSTRAINT `favoritos_ibfk_2` FOREIGN KEY (`idVehiculo`) REFERENCES `vehiculos_venta` (`idVehiculos_Venta`);
+
+--
 -- Filtros para la tabla `pagoscli`
 --
 ALTER TABLE `pagoscli`
@@ -1061,10 +1208,31 @@ ALTER TABLE `prestvehiculo`
   ADD CONSTRAINT `prestvehiculo` FOREIGN KEY (`vehiculo`) REFERENCES `vehiculos_vendidos` (`idVehiculos_Vendidos`);
 
 --
+-- Filtros para la tabla `registro`
+--
+ALTER TABLE `registro`
+  ADD CONSTRAINT `registro_sub_categoria` FOREIGN KEY (`id_sub_categoria`) REFERENCES `sub_categorias` (`id`),
+  ADD CONSTRAINT `registro_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuairos` (`id`);
+
+--
+-- Filtros para la tabla `sub_categorias`
+--
+ALTER TABLE `sub_categorias`
+  ADD CONSTRAINT `sub_catecogia_categoria` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id`) ON DELETE RESTRICT;
+
+--
 -- Filtros para la tabla `telefono`
 --
 ALTER TABLE `telefono`
   ADD CONSTRAINT `tipoTel` FOREIGN KEY (`tipoTel`) REFERENCES `tipotelefono` (`idtipoTelefono`);
+
+--
+-- Filtros para la tabla `usuairos`
+--
+ALTER TABLE `usuairos`
+  ADD CONSTRAINT `usuario_curso` FOREIGN KEY (`id_curso`) REFERENCES `cursos` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `usuario_pais` FOREIGN KEY (`pais`) REFERENCES `paises` (`id`),
+  ADD CONSTRAINT `usuario_rol` FOREIGN KEY (`id_rol`) REFERENCES `roles` (`id`);
 
 --
 -- Filtros para la tabla `usuario`
@@ -1089,7 +1257,8 @@ ALTER TABLE `vehiculos_vendidos`
 -- Filtros para la tabla `vehiculos_venta`
 --
 ALTER TABLE `vehiculos_venta`
-  ADD CONSTRAINT `categoria` FOREIGN KEY (`vehiculo_Categoria`) REFERENCES `vehiculo_categoria` (`idVehiculo_Categoria`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `categoria` FOREIGN KEY (`vehiculo_Categoria`) REFERENCES `vehiculo_categoria` (`idVehiculo_Categoria`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `vehiculos_venta_FK` FOREIGN KEY (`vehiculo_modelo`) REFERENCES `vehiculos_modelos` (`idVehiculos_Modelos`) ON DELETE RESTRICT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

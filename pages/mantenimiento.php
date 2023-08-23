@@ -210,7 +210,7 @@ $categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
 
                             while ($datos = $caracteristicas->fetch_assoc()) {
                                 $eliminar = array(
-                                    'query' => "delete from vehiculos_caracteristicas where idVehiculo_Caracteristicas = " . $datos['idVehiculo_Caracteristicas'],
+                                    'query' => "delete from vehiculo_caracteristicas where idVehiculo_Caracteristicas = " . $datos['idVehiculo_Caracteristicas'],
                                     'msj' =>  "Eliminar  " . $datos['Vehiculo_Caracteristica']
                                 );
                     ?>
