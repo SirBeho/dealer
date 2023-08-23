@@ -1,10 +1,10 @@
 <?php session_start();
 require("../php/connection.php");
-if (!isset($_SESSION['persona']['isInterno']) || $_SESSION['persona']['isInterno']==0    ) {
+if (!isset($_SESSION['persona']['isInterno']) || $_SESSION['persona']['isInterno'] == 0) {
     header("Location: ./home.php");
     die();
 }
- 
+
 $agenda = $mysqli->query("SELECT * FROM `agenda_compras`");
 
 ?>
@@ -45,7 +45,7 @@ $agenda = $mysqli->query("SELECT * FROM `agenda_compras`");
     <div class="w-screen p-6 mt-14">
         <div class="w-full  flex gap-5 items-center relative">
 
-            
+
             <?php
             if (isset($_SESSION['error_message'])) {
                 echo '<p id="msj" class="text-red-500 w-full text-center absolute transform duration-500 ease-in-out -mb-16 bottom-8">' . $_SESSION['error_message'] . '</p>';
@@ -58,7 +58,7 @@ $agenda = $mysqli->query("SELECT * FROM `agenda_compras`");
             ?>
         </div>
         <div id="marcas" class="contenedor ">
-           
+
             <table id="table_marcas" class="display table bg-gray-50 py-2 ">
                 <thead>
                     <tr>
@@ -78,7 +78,7 @@ $agenda = $mysqli->query("SELECT * FROM `agenda_compras`");
                         if ($agenda->num_rows > 0) {
 
                             while ($datos = $agenda->fetch_assoc()) {
-                                
+
                     ?>
                                 <tr>
                                     <td><?php echo $datos['id_agenda']; ?></td>
@@ -86,7 +86,18 @@ $agenda = $mysqli->query("SELECT * FROM `agenda_compras`");
                                     <td><?php echo $datos['id_vehiculo']; ?></td>
                                     <td><?php echo $datos['fecha']; ?></td>
                                     <td><?php echo $datos['hora']; ?></td>
-                                    <td><?php echo $datos['status']? "Completada":"Pendiente "; ?></td>
+                                    <td> <?php
+                                            if ($datos['status'] == 0) {
+                                                echo "Pendiente";
+                                            } elseif ($datos['status'] == 1) {
+                                                echo "Completada";
+                                            } else {
+                                                echo "Cancelada"; // Cambia este mensaje según necesites
+                                            } 
+                                            ?></td>
+
+
+                                    
                                     <td><a class="bg-green-400 hover:bg-green-800 p-2 rounded-md" href="./entrega.php?id=<?php echo $datos['id_agenda']; ?>">Ver</a></td>
                                 </tr>
                     <?php
@@ -99,7 +110,7 @@ $agenda = $mysqli->query("SELECT * FROM `agenda_compras`");
                 </tbody>
                 <tfoot>
                     <tr>
-                    <th>id</th>
+                        <th>id</th>
                         <th>Usuario</th>
                         <th>Vehiculo</th>
                         <th>Fecha</th>
@@ -110,9 +121,6 @@ $agenda = $mysqli->query("SELECT * FROM `agenda_compras`");
                 </tfoot>
             </table>
         </div>
-
-       
-
 
     </div>
     <?php include  '../modales/modal_delete.php' ?>

@@ -68,18 +68,20 @@ $modelos = $mysqli->query("SELECT * FROM `vehiculos_modelos`"); */
                     <div class="flex flex-col gap-2">
                         <span class="text-lg mb-2">Datos Generales</span>
                         <span>Precio: <span class="text-gray-500"><?php echo number_format($precio, 2, '.', ',');  ?> </span></span>
-                        <span>Marca: <span class="text-gray-500"><?php echo $nombre_Categoria; ?> </span></span>
-                        <span>Modelo: <span class="text-gray-500"><?php echo $nombre_Categoria; ?> </span></span>
+                        <span>Marca: <span class="text-gray-500"><?php echo $marca_nombre; ?> </span></span>
+                        <span>Modelo: <span class="text-gray-500"><?php echo $Modelo_nombre; ?> </span></span>
                         <span>Tipo: <span class="text-gray-500"><?php echo $nombre_Categoria; ?> </span></span>
-                        <span>Año: <span class="text-gray-500"><?php echo $nombre_Categoria; ?> </span></span>
+                        <span>Año: <span class="text-gray-500"><?php echo $year; ?> </span></span>
+                        <span>Color: <span class="text-gray-500"><?php echo $color; ?> </span></span>
                     </div>
                     <div class="flex flex-col gap-2">
                         <span class="text-lg mb-2">Datos Tecnicos</span>
-                        <span>Motor: <span class="text-gray-500"><?php echo $precio; ?> </span></span>
-                        <span>Transmision: <span class="text-gray-500"><?php echo $precio; ?> </span></span>
-                        <span>Traccion: <span class="text-gray-500"><?php echo $precio; ?> </span></span>
-                        <span>Pasajeros: <span class="text-gray-500"><?php echo $precio; ?> </span></span>
-                        <span>Puertas: <span class="text-gray-500"><?php echo $precio; ?> </span></span>
+                        <span>Matricula: <span class="text-gray-500"><?php echo $vehiculo_matricula; ?> </span></span>
+                        <span>Motor: <span class="text-gray-500"><?php echo $motor; ?> </span></span>
+                        <span>Transmision: <span class="text-gray-500"><?php echo $trasmision; ?> </span></span>
+                        <span>Traccion: <span class="text-gray-500"><?php echo $traccion; ?> </span></span>
+                        <span>Pasajeros: <span class="text-gray-500"><?php echo $pasajeros; ?> </span></span>
+                        <span>Puertas: <span class="text-gray-500"><?php echo $puertas; ?> </span></span>
 
                     </div>
 
@@ -116,7 +118,17 @@ $modelos = $mysqli->query("SELECT * FROM `vehiculos_modelos`"); */
                     <span>809-889-2235</span>
                     <form action="./compra.php" method="post">
                         <input type="hidden" name="id" value="<?php echo $_GET["id"] ?>">
-                    <button class="w-full text-center  p-2 bg-orange-600 rounded-lg text-sm  font-semibold text-white" type="submit">Agendar Compra</button>
+
+
+                        <?php
+                            if ($disponible) {
+                                echo '<button class="w-full text-center p-2 bg-orange-600 rounded-lg text-sm font-semibold text-white" type="submit">Agendar Compra</button>';
+                            } else {
+                                echo '<span disabled class="w-full block text-center p-2 bg-gray-600 rounded-lg text-sm font-semibold text-white" >Vehiculo No Disponible</span>';
+                            }
+                            ?>
+
+                    
                     </form>
                 </div>
             </div>

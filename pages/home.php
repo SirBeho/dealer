@@ -105,7 +105,7 @@ $favoritos = $mysqli->query("select * from favoritos left join vehiculos_venta o
 
                                     while ($datos = $categoria->fetch_assoc()) {
                             ?>
-                                        <label class="bg-orange-600 rounded-lg p-1 ps-5 ">
+                                        <label class="bg-orange-600 rounded-lg p-1 ps-5 flex items-center h-fit">
                                             <input type="checkbox" name="tipo[]" value="<?php echo $datos['idVehiculo_Categoria'] ?>">&nbsp;<?php echo $datos['nombre_Categoria'] ?>
                                         </label>
                             <?php

@@ -6,7 +6,7 @@ $categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
 $marcas = $mysqli->query("SELECT * FROM `vehiculos_marcas`");
 $modelos = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
 
-
+$caracteristicas_array = array();
 if (isset($_GET["id"])) {
 
     $resultado = $mysqli->query("SELECT * from vehiculos_venta left JOIN vehiculos_modelos on idVehiculos_Modelos = vehiculo_modelo  join vehiculos_marcas on vehiculos_modelos.marca = vehiculos_marcas.idVehiculos_Marca join vehiculo_categoria on vehiculos_venta.vehiculo_Categoria = vehiculo_categoria.idVehiculo_Categoria where vehiculos_venta.idVehiculos_Venta =" . $_GET["id"])->fetch_assoc();
@@ -15,13 +15,13 @@ if (isset($_GET["id"])) {
         die();
     }
     extract($resultado);
+ 
     $caracteristicas_id = $mysqli->query("SELECT idVehiculo_Caracteristicas FROM caracteristicasvsvehiculoventa join vehiculo_caracteristicas on vehiculo_caracteristicas.idVehiculo_Caracteristicas = caracteristicasvsvehiculoventa.IdCaracteristica where IdVehiculoVenta =" . $_GET["id"]);
-    // $caracteristicas_ids = $mysqli->query("SELECT idVehiculo_Caracteristicas FROM caracteristicasvsvehiculoventa join vehiculo_caracteristicas on vehiculo_caracteristicas.idVehiculo_Caracteristicas = caracteristicasvsvehiculoventa.IdCaracteristica where IdVehiculoVenta =" . $_GET["id"]);
+    
+    while ($datos = $caracteristicas_id->fetch_assoc()) {
+        $caracteristicas_array[] = $datos['idVehiculo_Caracteristicas'];
+    }
 }
-
-
-
-
 
 
 
@@ -46,14 +46,22 @@ if (isset($_GET["id"])) {
     <div class="w-screen p-6 mt-14">
 
         <span class="block text-3xl font-bold border-b-2 border-orange-300 ">Registro de Vehiculo</span>
-        <form action="../controller/vehiculo.php" method="post" class="flex flex-col gap-6 items-center mt-4 ">
-
-
-
+        <form action="../controller/vehiculo.php<?php if (isset($_GET["id"])) echo '?id='.$_GET["id"]; ?>" method="post" class="flex flex-col gap-6 items-center mt-4 ">
             <div id="cuadro" class="flex gap-12">
                 <div class="flex flex-col gap-5">
                     <span class="font-semibold ">Datos Generales:</span>
                     <div class="grid grid-cols-2 gap-4">
+
+                    <input type="hidden" name="accion" value="<?php  echo isset($_GET["id"])? 'update':"create" ?>">
+                   
+                    <label>
+                            <span>Matricula</span></br>
+                            <input required  type="text" name="matricula" placeholder="matricula" value="<?php if (isset($vehiculo_matricula)) echo $vehiculo_matricula; ?>">
+                        </label>
+                        <label>
+                            <span>Color</span></br>
+                            <input required type="text" name="color" placeholder="color" value="<?php if (isset($color)) echo $color; ?>">
+                        </label>
 
                         <label>
                             <span>Marca</span></br>
@@ -108,23 +116,19 @@ if (isset($_GET["id"])) {
 
                         <label>
                             <span>Año</span></br>
-                            <input type="number" name="year" placeholder="Año" value="<?php if (isset($year)) echo $year; ?>">
+                            <input required type="number" name="year" placeholder="Año" value="<?php if (isset($year)) echo $year; ?>">
                         </label>
                         <div class="flex gap-4 items-center ">
                             Condición:
                             <label>
-                                <input class="w-fit" type="radio" name="condicion[]" value="1" <?php if (isset($nuevo) && $nuevo) echo "checked"; ?>> Nuevo
+                                <input required class="w-fit" type="radio" name="condicion[]" value="1" <?php if (isset($nuevo) && $nuevo) echo "checked"; ?>> Nuevo
                             </label>
                             <label>
-                                <input class="w-fit" type="radio" name="condicion[]" value="0" <?php if (isset($nuevo) && !$nuevo) echo "checked"; ?>> Usado
+                                <input required class="w-fit" type="radio" name="condicion[]" value="0" <?php if (isset($nuevo) && !$nuevo) echo "checked"; ?>> Usado
                             </label>
                         </div>
 
-                        <label>
-                            <span>Color</span></br>
-                            <input type="text" name="color" placeholder="color" value="<?php if (isset($color)) echo $color; ?>">
-                        </label>
-
+                        
                     </div>
 
                     <div>
@@ -137,9 +141,10 @@ if (isset($_GET["id"])) {
                                 if ($caracteristicas->num_rows > 0) {
 
                                     while ($datos = $caracteristicas->fetch_assoc()) {
+                                $checkbox_value = in_array($datos['idVehiculo_Caracteristicas'], $caracteristicas_array) ? "checked" : "";
                             ?>
                                         <label class="  ">
-                                            <input type="checkbox" name="caracteristicas[]" value="<?php echo $datos['idVehiculo_Caracteristicas'] ?>">
+                                            <input <?php echo $checkbox_value ?>  type="checkbox" name="caracteristicas[]" value="<?php echo $datos['idVehiculo_Caracteristicas'] ?>">
                                             &nbsp;<?php echo $datos['Vehiculo_Caracteristica'] ?>
                                         </label>
                             <?php
@@ -154,31 +159,31 @@ if (isset($_GET["id"])) {
                     </div>
                     <label>
                         <span>Precio</span>
-                        <input type="number" name="precio" value="<?php if (isset($precio)) echo  $precio; ?>" placeholder="Precio ">
+                        <input required type="number" name="precio" value="<?php if (isset($precio)) echo  $precio; ?>" placeholder="Precio ">
                     </label>
                 </div>
                 <div class="flex flex-col gap-5 w-40  ">
                     <span class="font-semibold">Datos tecnicos</span>
                     <label>
                         <span>Motor</span></br>
-                        <input type="text" name="motor" placeholder="motor ">
+                        <input required type="text" name="motor" value="<?php if (isset($precio)) echo  $motor; ?>" placeholder="motor ">
                     </label>
 
                     <label>
                         <span>Trasmision</span></br>
-                        <input type="text" name="trasmision" placeholder="Trasmision ">
+                        <input required type="text" name="trasmision" value="<?php if (isset($precio)) echo  $trasmision; ?>" placeholder="Trasmision ">
                     </label>
                     <label>
                         <span>Traccion</span></br>
-                        <input type="text" name="traccion" placeholder="Traccion ">
+                        <input required type="text" name="traccion" value="<?php if (isset($precio)) echo  $traccion; ?>"  placeholder="Traccion ">
                     </label>
                     <label>
                         <span>Pasajeros</span></br>
-                        <input type="text" name="pasajeros" placeholder="Pasajeros ">
+                        <input required type="text" name="pasajeros" value="<?php if (isset($pasajeros)) echo  $pasajeros; ?>"  placeholder="Pasajeros ">
                     </label>
                     <label>
                         <span>Puertas</span></br>
-                        <input type="text" name="puertas" placeholder="Puertas ">
+                        <input required type="text" name="puertas" value="<?php if (isset($puertas)) echo  $puertas; ?>" placeholder="Puertas ">
                     </label>
                 </div>
             </div>
@@ -186,11 +191,11 @@ if (isset($_GET["id"])) {
 
                 <label>
                     <span>Descripcion</span>
-                    <textarea rows="5" name="precio" placeholder="Escriba una descripcion sobre su vehiculo "></textarea>
+                    <textarea rows="5" name="Descripcion" placeholder="Escriba una descripcion sobre su vehiculo "></textarea>
                 </label>
                 <label>
                     <span>Subir Fotos</span>
-                    <input type="file" class="hidden">
+                    <input  type="file" class="hidden">
                 </label>
 
                 <button class="w-full text-center  py-4 mt-5 bg-orange-600 rounded-lg text-sm  font-semibold text-white" type="submit">Registrar Vehiculo</a>
