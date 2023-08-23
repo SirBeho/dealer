@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 23-08-2023 a las 01:57:37
+-- Tiempo de generación: 23-08-2023 a las 03:41:58
 -- Versión del servidor: 8.0.31
 -- Versión de PHP: 8.2.0
 
@@ -35,8 +35,21 @@ CREATE TABLE IF NOT EXISTS `agenda_compras` (
   `fecha` date NOT NULL,
   `hora` time NOT NULL,
   `status` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id_agenda`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `entrega_local` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id_agenda`),
+  KEY `id_usuario` (`id_usuario`),
+  KEY `id_vehiculo` (`id_vehiculo`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `agenda_compras`
+--
+
+INSERT INTO `agenda_compras` (`id_agenda`, `id_usuario`, `id_vehiculo`, `fecha`, `hora`, `status`, `entrega_local`) VALUES
+(1, 1, 11, '2023-08-22', '07:35:00', 0, 1),
+(2, 1, 1, '2023-08-10', '09:58:00', 0, 0),
+(3, 1, 1, '2023-08-22', '06:30:00', 0, 1),
+(4, 1, 13, '2023-08-24', '06:30:00', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -921,7 +934,7 @@ CREATE TABLE IF NOT EXISTS `vehiculos_marcas` (
   `marca_nombre` varchar(45) NOT NULL,
   PRIMARY KEY (`idVehiculos_Marca`),
   UNIQUE KEY `marca_nombre_UNIQUE` (`marca_nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `vehiculos_marcas`
@@ -929,6 +942,7 @@ CREATE TABLE IF NOT EXISTS `vehiculos_marcas` (
 
 INSERT INTO `vehiculos_marcas` (`idVehiculos_Marca`, `marca_nombre`) VALUES
 (4, 'Chevrolet'),
+(8, 'Ferrari'),
 (3, 'Ford'),
 (2, 'Honda'),
 (5, 'Nissan'),
@@ -949,7 +963,7 @@ CREATE TABLE IF NOT EXISTS `vehiculos_modelos` (
   UNIQUE KEY `idVehiculos_Modelos_UNIQUE` (`idVehiculos_Modelos`),
   UNIQUE KEY `Modelo_nombre_UNIQUE` (`Modelo_nombre`),
   KEY `marca` (`marca`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `vehiculos_modelos`
@@ -975,7 +989,9 @@ INSERT INTO `vehiculos_modelos` (`idVehiculos_Modelos`, `Modelo_nombre`, `marca`
 (17, 'HR-V', 2),
 (18, 'Explorer', 3),
 (19, 'Traverse', 4),
-(20, 'Rogue', 5);
+(20, 'Rogue', 5),
+(24, 'LaFerrari', 8),
+(25, 'SF90', 8);
 
 -- --------------------------------------------------------
 
@@ -1042,6 +1058,12 @@ CREATE TABLE IF NOT EXISTS `vehiculos_venta` (
   `vehiculo_Categoria` int NOT NULL,
   `nuevo` tinyint(1) NOT NULL DEFAULT '1',
   `image` varchar(100) NOT NULL,
+  `puertas` varchar(20) NOT NULL,
+  `motor` varchar(20) NOT NULL,
+  `trasmision` varchar(20) NOT NULL,
+  `traccion` varchar(20) NOT NULL,
+  `pasajeros` varchar(20) NOT NULL,
+  `color` varchar(20) NOT NULL,
   PRIMARY KEY (`idVehiculos_Venta`),
   UNIQUE KEY `vehiculo_modelo_UNIQUE` (`vehiculo_modelo`),
   KEY `categoria_idx` (`vehiculo_Categoria`)
@@ -1051,27 +1073,27 @@ CREATE TABLE IF NOT EXISTS `vehiculos_venta` (
 -- Volcado de datos para la tabla `vehiculos_venta`
 --
 
-INSERT INTO `vehiculos_venta` (`idVehiculos_Venta`, `vehiculo_matricula`, `precio`, `millage`, `fecha_adquisicion`, `year`, `vehiculo_modelo`, `vehiculo_Categoria`, `nuevo`, `image`) VALUES
-(1, 'ABC123', 25000, 20000, '2023-01-01', '2022', 1, 1, 1, 'corolla.jpg'),
-(2, 'DEF456', 28000, 15000, '2023-01-02', '2022', 2, 1, 1, 'civic.jpg'),
-(3, 'GHI789', 32000, 10000, '2023-01-03', '2022', 3, 2, 1, 'f150.jpg'),
-(4, 'JKL012', 35000, 12000, '2023-01-04', '2022', 4, 2, 1, 'silverado.jpg'),
-(5, 'MNO345', 26000, 18000, '2023-01-05', '2022', 5, 3, 1, 'altima.jpg'),
-(6, 'PQR678', 34000, 8000, '2023-01-06', '2022', 6, 1, 1, '3series.jpg'),
-(7, 'STU901', 39000, 7000, '2023-01-07', '2022', 7, 1, 1, 'cclass.jpg'),
-(8, 'VWX234', 42000, 5000, '2023-01-08', '2022', 8, 2, 1, 'a4.jpg'),
-(9, 'YZA567', 28000, 12000, '2023-01-09', '2022', 9, 2, 1, 'elantra.jpg'),
-(10, 'BCD890', 31000, 9000, '2023-01-10', '2022', 10, 3, 1, 'sorento.jpg'),
-(11, 'EFG123', 28000, 17000, '2023-01-11', '2022', 11, 3, 1, 'golf.jpg'),
-(12, 'HIJ456', 33000, 15000, '2023-01-12', '2022', 12, 1, 1, 'cx5.jpg'),
-(13, 'KLM789', 38000, 12000, '2023-01-13', '2022', 13, 1, 1, 'outback.jpg'),
-(14, 'NOP012', 39000, 18000, '2023-01-14', '2022', 14, 2, 1, 'wrangler.jpg'),
-(15, 'QRS345', 45000, 8000, '2023-01-15', '2022', 15, 2, 1, 'rx.jpg'),
-(16, 'TUV678', 32000, 20000, '2023-01-16', '2022', 16, 3, 1, 'xc60.jpg'),
-(17, 'WXY901', 49000, 7000, '2023-01-17', '2022', 17, 3, 1, '488gtb.jpg'),
-(18, 'ZAB234', 52000, 6000, '2023-01-18', '2022', 18, 1, 1, '911.jpg'),
-(19, 'CDE567', 80000, 3000, '2023-01-19', '2022', 19, 1, 1, 'models.jpg'),
-(20, 'FGH890', 85000, 5000, '2023-01-20', '2022', 20, 2, 1, 'rangerover.jpg');
+INSERT INTO `vehiculos_venta` (`idVehiculos_Venta`, `vehiculo_matricula`, `precio`, `millage`, `fecha_adquisicion`, `year`, `vehiculo_modelo`, `vehiculo_Categoria`, `nuevo`, `image`, `puertas`, `motor`, `trasmision`, `traccion`, `pasajeros`, `color`) VALUES
+(1, 'ABC123', 25000, 20000, '2023-01-01', '2022', 1, 1, 1, 'corolla.jpg', '', '', '', '', '', ''),
+(2, 'DEF456', 28000, 15000, '2023-01-02', '2022', 2, 1, 1, 'civic.jpg', '', '', '', '', '', ''),
+(3, 'GHI789', 32000, 10000, '2023-01-03', '2022', 3, 2, 1, 'f150.jpg', '', '', '', '', '', ''),
+(4, 'JKL012', 35000, 12000, '2023-01-04', '2022', 4, 2, 1, 'silverado.jpg', '', '', '', '', '', ''),
+(5, 'MNO345', 26000, 18000, '2023-01-05', '2022', 5, 3, 1, 'altima.jpg', '', '', '', '', '', ''),
+(6, 'PQR678', 34000, 8000, '2023-01-06', '2022', 6, 1, 1, '3series.jpg', '', '', '', '', '', ''),
+(7, 'STU901', 39000, 7000, '2023-01-07', '2022', 7, 1, 1, 'cclass.jpg', '', '', '', '', '', ''),
+(8, 'VWX234', 42000, 5000, '2023-01-08', '2022', 8, 2, 1, 'a4.jpg', '', '', '', '', '', ''),
+(9, 'YZA567', 28000, 12000, '2023-01-09', '2022', 9, 2, 1, 'elantra.jpg', '', '', '', '', '', ''),
+(10, 'BCD890', 31000, 9000, '2023-01-10', '2022', 10, 3, 1, 'sorento.jpg', '', '', '', '', '', ''),
+(11, 'EFG123', 28000, 17000, '2023-01-11', '2022', 11, 3, 1, 'golf.jpg', '', '', '', '', '', ''),
+(12, 'HIJ456', 33000, 15000, '2023-01-12', '2022', 12, 1, 1, 'cx5.jpg', '', '', '', '', '', ''),
+(13, 'KLM789', 38000, 12000, '2023-01-13', '2022', 13, 1, 1, 'outback.jpg', '', '', '', '', '', ''),
+(14, 'NOP012', 39000, 18000, '2023-01-14', '2022', 14, 2, 1, 'wrangler.jpg', '', '', '', '', '', ''),
+(15, 'QRS345', 45000, 8000, '2023-01-15', '2022', 15, 2, 1, 'rx.jpg', '', '', '', '', '', ''),
+(16, 'TUV678', 32000, 20000, '2023-01-16', '2022', 16, 3, 1, 'xc60.jpg', '', '', '', '', '', ''),
+(17, 'WXY901', 49000, 7000, '2023-01-17', '2022', 17, 3, 1, '488gtb.jpg', '', '', '', '', '', ''),
+(18, 'ZAB234', 52000, 6000, '2023-01-18', '2022', 18, 1, 1, '911.jpg', '', '', '', '', '', ''),
+(19, 'CDE567', 80000, 3000, '2023-01-19', '2022', 19, 1, 1, 'models.jpg', '', '', '', '', '', ''),
+(20, 'FGH890', 85000, 5000, '2023-01-20', '2022', 20, 2, 1, 'rangerover.jpg', '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -1084,7 +1106,7 @@ CREATE TABLE IF NOT EXISTS `vehiculo_caracteristicas` (
   `idVehiculo_Caracteristicas` int NOT NULL AUTO_INCREMENT,
   `Vehiculo_Caracteristica` varchar(45) NOT NULL,
   PRIMARY KEY (`idVehiculo_Caracteristicas`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `vehiculo_caracteristicas`
@@ -1137,22 +1159,19 @@ INSERT INTO `vehiculo_categoria` (`idVehiculo_Categoria`, `nombre_Categoria`) VA
 (5, 'Camioneta'),
 (6, 'Hatchback'),
 (7, 'Convertible'),
-(8, 'Minivan'),
 (9, 'Coupé'),
-(11, 'Todo Terreno'),
-(12, 'Eléctrico'),
-(13, 'Compacto'),
-(14, 'Berlina'),
-(15, 'Subcompacto'),
-(16, 'De Lujo'),
-(17, 'Camión'),
-(18, 'Autobús'),
-(19, 'Monovolumen'),
-(20, 'Pickup Doble Cabina');
+(13, 'Compacto');
 
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `agenda_compras`
+--
+ALTER TABLE `agenda_compras`
+  ADD CONSTRAINT `agenda_compras_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`idUsuario`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `agenda_compras_ibfk_2` FOREIGN KEY (`id_vehiculo`) REFERENCES `vehiculos_venta` (`idVehiculos_Venta`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Filtros para la tabla `caracteristicasvsvehiculoventa`
