@@ -3,8 +3,7 @@ require("../php/connection.php");
 $marcas = $mysqli->query("SELECT * FROM `vehiculos_marcas`");
 $modelo = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
 $categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
-$favoritos = $mysqli->query("select * from favoritos left join vehiculos_venta on favoritos.idVehiculo = vehiculos_venta.idVehiculos_Venta left JOIN vehiculos_modelos on idVehiculos_Modelos = vehiculo_modelo  join vehiculos_marcas on vehiculos_modelos.marca = vehiculos_marcas.idVehiculos_Marca join vehiculo_categoria on vehiculos_venta.vehiculo_Categoria = vehiculo_categoria.idVehiculo_Categoria");
-
+$favoritos = $mysqli->query("select * from favoritos left join vehiculos_venta on favoritos.idVehiculo = vehiculos_venta.idVehiculos_Venta left JOIN vehiculos_modelos on idVehiculos_Modelos = vehiculo_modelo  join vehiculos_marcas on vehiculos_modelos.marca = vehiculos_marcas.idVehiculos_Marca join vehiculo_categoria on vehiculos_venta.vehiculo_Categoria = vehiculo_categoria.idVehiculo_Categoria where idUsuario=".$_SESSION['persona']['idUsuario']);
 
 ?>
 <!DOCTYPE html>
@@ -135,14 +134,18 @@ $favoritos = $mysqli->query("select * from favoritos left join vehiculos_venta o
                     if ($favoritos) {
                         if ($favoritos->num_rows > 0) {
                             while ($datos = $favoritos->fetch_assoc()) {
+                                $fav = true;
                     ?>
-                                <a href="./detalle.php?id=<?php echo $datos['idVehiculos_Venta']?>" class="h-fit bg-gray-300 hover:bg-orange-200 rounded-xl p-1">
+                                <a href="./detalle.php?id=<?php echo $datos['idVehiculos_Venta']?>" class="h-fit bg-gray-300 hover:bg-orange-200 rounded-xl p-1 relative">
                                     <div class="w-72 h-48 object-fill rounded-xl bg-white overflow-hidden">
                                         <img src="../pictures/<?php echo is_file("../pictures/carro_" . $datos['idVehiculos_Venta']) ? "carro_" . $datos['idVehiculos_Venta'] : "default.jpg" ?> " alt="">
                                     </div>
                                     <p class="font-bold text-black"><?php echo   $datos['nombre_Categoria'] . " " . $datos['marca_nombre'] . " " . $datos['Modelo_nombre'] . " " . $datos['year']; ?> </p>
                                     <p class="text-gray-600">RD$ <?php echo number_format($datos['precio'], 2, ',', '.'); ?></p>
-                            </a>
+                                    <div id="fav" onclick="handleFavoriteClick(event, <?= $datos['idVehiculos_Venta'] ?>, <?= $_SESSION['persona']['idUsuario'] ?>)" class="absolute right-2 top-2  w-8 ">
+                                        <img class="h-full w-full" src="../svg/<?= $fav ? "favorito" : "nfavorito" ?>.svg" alt="">
+                                    </div>
+                                </a>
                     <?php
                             }
                         } else {

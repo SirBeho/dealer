@@ -11,6 +11,13 @@ $resultado = $mysqli->query($_SESSION['query']);
 $marcas = $mysqli->query("SELECT * FROM `vehiculos_marcas`");
 $modelo = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
 
+$favoritos = $mysqli->query("select * from favoritos left join vehiculos_venta on favoritos.idVehiculo = vehiculos_venta.idVehiculos_Venta left JOIN vehiculos_modelos on idVehiculos_Modelos = vehiculo_modelo  join vehiculos_marcas on vehiculos_modelos.marca = vehiculos_marcas.idVehiculos_Marca join vehiculo_categoria on vehiculos_venta.vehiculo_Categoria = vehiculo_categoria.idVehiculo_Categoria where idUsuario=" . $_SESSION['persona']['idUsuario']);
+$favoritos_array = array();
+while ($datos = $favoritos->fetch_assoc()) {
+    $favoritos_array[] = $datos['idVehiculo'];
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,34 +33,34 @@ $modelo = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
 </head>
 
 <body>
-<?php include "./nav.php" ?>
+    <?php include "./nav.php" ?>
     <div id="cuadro" class="w-screen p-6 mt-14 ">
-    <span class=" block w-full text-3xl font-bold border-b-2 border-orange-300">Buscar Vehiculo</span>
+        <span class=" block w-full text-3xl font-bold border-b-2 border-orange-300">Buscar Vehiculo</span>
         <div class="flex gap-8 mt-8 ">
             <!-- IZQUIERDA -->
-            <form action="../php/buscar.php" method="post" class="p-2 shadow-lg" >
+            <form action="../php/buscar.php" method="post" class="p-2 shadow-lg">
                 <div class="flex justify-center gap-16  mb-12">
 
                     <div class="flex flex-col  gap-6 max-w-xs">
 
                         <div class=" flex flex-col gap-6 ">
-                            <label >
-                            <span>Marca</span>
-                            <select id="marca" onchange="updateModelo()" name="marca" placeholder="Marca">
-                                <option value="" selected>Marca</option>
-                                <?php
-                                if ($marcas) {
-                                    if ($marcas->num_rows > 0) {
-                                        while ($datos = $marcas->fetch_assoc()) {
-                                            echo "<option value=\"{$datos['idVehiculos_Marca']}\">{$datos['marca_nombre']}</option>";
+                            <label>
+                                <span>Marca</span>
+                                <select id="marca" onchange="updateModelo()" name="marca" placeholder="Marca">
+                                    <option value="" selected>Marca</option>
+                                    <?php
+                                    if ($marcas) {
+                                        if ($marcas->num_rows > 0) {
+                                            while ($datos = $marcas->fetch_assoc()) {
+                                                echo "<option value=\"{$datos['idVehiculos_Marca']}\">{$datos['marca_nombre']}</option>";
+                                            }
                                         }
+                                        $marcas->free();
+                                    } else {
+                                        echo "<option >Error executing the query: " . $mysqli->error . "</option>";
                                     }
-                                    $marcas->free();
-                                } else {
-                                    echo "<option >Error executing the query: " . $mysqli->error . "</option>";
-                                }
-                                ?>
-                            </select>
+                                    ?>
+                                </select>
                             </label>
                             <label for="">
                                 <span>Modelo</span>
@@ -101,15 +108,25 @@ $modelo = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
                 if ($resultado) {
                     if ($resultado->num_rows > 0) {
                         while ($datos = $resultado->fetch_assoc()) {
-                            
+                            $fav = in_array($datos['idVehiculos_Venta'], $favoritos_array);
+
                 ?>
-                           <a href="./detalle.php?id=<?php echo $datos['idVehiculos_Venta']?>" class="h-fit bg-gray-300 hover:bg-orange-200 rounded-xl p-1">
+                            <a id="foto" href="./detalle.php?id=<?php echo $datos['idVehiculos_Venta'] ?>" class="relative h-fit bg-gray-300 hover:bg-orange-200 rounded-xl p-1">
                                 <div class="w-72 h-48 object-fill rounded-xl bg-white overflow-hidden">
                                     <img src="../pictures/<?php echo is_file("../pictures/carro_" . $datos['idVehiculos_Venta']) ? "carro_" . $datos['idVehiculos_Venta'] : "default.jpg" ?> " alt="">
                                 </div>
-                                <p class="font-bold text-black"><?php echo   $datos['nombre_Categoria'] . " " .$datos['marca_nombre'] . " " . $datos['Modelo_nombre'] . " " . $datos['year']; ?> </p>
-                                <p class="text-gray-600">RD$ <?php echo number_format($datos['precio'], 2, ',', '.'); ?></p>
-                        </a>
+                                <p class="font-bold text-black"><?php echo   $datos['nombre_Categoria'] . " " . $datos['marca_nombre'] . " " . $datos['Modelo_nombre'] . " " . $datos['year']; ?> </p>
+                                <div class="flex justify-between ">
+                                    <p class="text-gray-600">RD$ <?php echo number_format($datos['precio'], 2, ',', '.'); ?></p>
+
+
+                                    <div id="fav" onclick="handleFavoriteClick(event, <?= $datos['idVehiculos_Venta'] ?>, <?= $_SESSION['persona']['idUsuario'] ?>)" class="absolute right-2 top-2  w-8 ">
+                                        <img class="h-full w-full" src="../svg/<?= $fav ? "favorito" : "nfavorito" ?>.svg" alt="">
+                                    </div>
+
+                                </div>
+                            </a>
+
 
                 <?php
                         }
@@ -123,6 +140,14 @@ $modelo = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
                     echo "<tr><td colspan='5'>Error executing the query: " . $mysqli->error . "</td></tr>";
                 }
                 ?>
+
+
+                <script>
+                    
+                </script>
+
+
+
             </div>
         </div>
     </div>

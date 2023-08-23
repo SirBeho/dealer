@@ -699,12 +699,24 @@ video {
   top: 0px;
 }
 
+.top-1 {
+  top: 0.25rem;
+}
+
 .top-16 {
   top: 4rem;
 }
 
 .top-3 {
   top: 0.75rem;
+}
+
+.right-1 {
+  right: 0.25rem;
+}
+
+.top-2 {
+  top: 0.5rem;
 }
 
 .isolate {
@@ -1024,6 +1036,10 @@ video {
 
 .w-1\/2 {
   width: 50%;
+}
+
+.w-10 {
+  width: 2.5rem;
 }
 
 .w-12 {

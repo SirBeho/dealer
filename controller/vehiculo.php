@@ -11,14 +11,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     require("../php/connection.php");
 
     if ($accion == "create") {
+        $UltimoID = 0;
         try {
 
-            $query = "INSERT INTO vehiculos_venta  (`vehiculo_matricula`, `precio`, `year`, `vehiculo_modelo`, `vehiculo_Categoria`, `nuevo`,  `puertas`, `motor`, `trasmision`, `traccion`, `pasajeros`, `color`,`disponilbe`) 
-                                                                 VALUES ('$matricula ','$precio','$year ','$modelo','$categoria','$condicion','$puertas','$motor','$trasmision','$traccion','$pasajeros',   '$color',`1`)";
-
+            $query = "INSERT INTO vehiculos_venta (`vehiculo_matricula`, `precio`, `year`, `vehiculo_modelo`, `vehiculo_Categoria`, `nuevo`,  `puertas`, `motor`, `trasmision`, `traccion`, `pasajeros`, `color`,`disponible`) 
+                                                                 VALUES ('$matricula ','$precio','$year ','$modelo','$categoria','$condicion','$puertas','$motor','$trasmision','$traccion','$pasajeros', '$color',1)";
+            
             $mysqli->query($query);
+          
             $_SESSION['success_message'] = "El Vehiculo fue registrado correctamente";
-
+        
 
             try {
                 $UltimoID =  $mysqli->query("SELECT MAX(idVehiculos_Venta) AS ultimo_id FROM vehiculos_venta")->fetch_assoc()['ultimo_id'];
@@ -27,12 +29,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $mysqli->query("INSERT INTO caracteristicasvsvehiculoventa (`IdCaracteristica`, `IdVehiculoVenta`) VALUES ('$caracteristica ','$UltimoID')");
                 }
             } catch (Exception $e) {
+                var_dump($e);
                 $_SESSION['error_message'] = Error_SQL($e);
             }
-        } catch (Exception $e) {
-            $_SESSION['error_message'] = Error_SQL($e);
-        }
-
+            } catch (Exception $e) {
+                var_dump($e);
+                $_SESSION['error_message'] = Error_SQL($e);
+            }
+  
         header("Location: ../pages/detalle.php?id=".$UltimoID);
     } elseif ($accion == "update") {
         
