@@ -80,7 +80,7 @@ const targetDiv = document.getElementById("menu"); // Menú desplegable
     
 boton.addEventListener('click', function () {
   targetDiv.classList.toggle("h-0"); 
-  targetDiv.classList.toggle("h-44"); 
+  targetDiv.classList.toggle("h-52"); 
   targetDiv.classList.toggle("opacity-0"); 
 });
 
@@ -88,7 +88,7 @@ boton.addEventListener('click', function () {
 cuadro.addEventListener('mouseover', function () {
   targetDiv.classList.add("opacity-0"); 
   targetDiv.classList.add("h-0"); 
-  targetDiv.classList.remove("h-44"); 
+  targetDiv.classList.remove("h-52"); 
 });
 
 

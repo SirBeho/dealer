@@ -143,7 +143,7 @@ $caracteristicas = $mysqli->query("SELECT * FROM caracteristicasvsvehiculoventa 
 
                 <?php
                 if ($status == 0) {
-                    echo '<button class="w-full text-center  py-4 mt-5 bg-orange-600 rounded-lg text-sm  font-semibold text-white" type="submit">Recibir Vehiculo</button>';
+                    echo '<button class="w-full text-center  py-4 mt-5 bg-orange-600 rounded-lg text-sm  font-semibold text-white" type="submit">Canfirmar Compra</button>';
                     echo '<a href="../controller/cancelar_compra.php?id=' . $_GET["id"] . '&id_v=' . $id_vehiculo . '" class="w-full block text-center py-4 mt-5 bg-orange-600 rounded-lg text-sm font-semibold text-white" type="submit">Cancelar Compra</a>';
                 } elseif ($status == 1) {
                     echo '<span disabled class="w-full block text-center  py-4 mt-5 bg-gren-600 rounded-lg text-sm  font-semibold text-white" >Vehiculo Recibido</span>';

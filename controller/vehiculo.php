@@ -13,8 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($accion == "create") {
         try {
 
-            $query = "INSERT INTO vehiculos_venta  (`vehiculo_matricula`, `precio`, `year`, `vehiculo_modelo`, `vehiculo_Categoria`, `nuevo`,  `puertas`, `motor`, `trasmision`, `traccion`, `pasajeros`, `color`) 
-                                                                 VALUES ('$matricula ','$precio','$year ','$modelo','$categoria','$condicion','$puertas','$motor','$trasmision','$traccion','$pasajeros',   '$color')";
+            $query = "INSERT INTO vehiculos_venta  (`vehiculo_matricula`, `precio`, `year`, `vehiculo_modelo`, `vehiculo_Categoria`, `nuevo`,  `puertas`, `motor`, `trasmision`, `traccion`, `pasajeros`, `color`,`disponilbe`) 
+                                                                 VALUES ('$matricula ','$precio','$year ','$modelo','$categoria','$condicion','$puertas','$motor','$trasmision','$traccion','$pasajeros',   '$color',`1`)";
 
             $mysqli->query($query);
             $_SESSION['success_message'] = "El Vehiculo fue registrado correctamente";
