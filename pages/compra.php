@@ -1,7 +1,7 @@
 <?php session_start();
 
 require("../php/connection.php");
-var_dump($_SESSION['persona']);
+
 
 if (!isset($_POST["id"])) {
     header("Location: ./home.php");
@@ -35,48 +35,45 @@ extract($resultado);
             <div class="w-20">
                 <img src="../pictures/auto.png" alt="">
             </div>
-            <form action="../php/correo_password.php" method="post" class=" flex  w-full flex-col gap-4 relative text-gray-500">
-            <input type="hidden" >
-            <div class="my-8 text-center">
-                <h3 class="font-bold text-lg text-center "> Tipo de entrega </h3>
-                <div class="flex gap-4 justify-center    ">
+            <form action="../controller/agenda.php" method="post" class=" flex  w-full flex-col gap-4 relative text-gray-500">
+                <input type="hidden" value="<?php echo $_POST["id"] ?>" name="id">
+                <div class="my-8 text-center">
+                    <h3 class="font-bold text-lg text-center "> Tipo de entrega </h3>
+                    <div class="flex gap-4 justify-center    ">
 
-                    <label>
-                        <span>En el Local</span>
-                        <input class="w-fit" type="radio" name="condicion[]" value="1">
-                    </label>
-                    <label>
-                        <span>Mi direccion</span>
-                        <input class="w-fit" type="radio" name="condicion[]" value="0">
-                    </label>
+                        <label>
+                            <span>En el Local</span>
+                            <input required class="w-fit" type="radio" name="entrega" value="1">
+                        </label>
+                        <label>
+                            <span>Mi direccion</span>
+                            <input  required class="w-fit" type="radio" name="entrega" value="0">
+                        </label>
+                    </div>
+
+                    <div class="pt-4">
+                        <span class="font-semibold ">
+                            Ingresa la fecha en la que desea agendar la compra de su:
+                        </span></br>
+                        <span class="text-xl font-bold"> <?php echo $year . " " . $marca_nombre . " " . $Modelo_nombre . " "; ?></span>
+                    </div>
+
+                    <div>
+                        <label class=" mt-5  flex items-center gap-3 border border-gray-BD rounded-lg p-1 ps-4">
+                            <div class="w-5 h-5">
+                                <img class="w-full h-full" src="../svg/lapiz.svg" alt="">
+                            </div>
+                            <input required class="bg-transparent" type="date" name="date">
+                        </label>
+
+                        <label class="mt-5 flex items-center gap-3 border border-gray-BD rounded-lg p-1 ps-4">
+                            <div class="w-5 h-5">
+                                <img class="w-full h-full" src="../svg/lapiz.svg" alt="">
+                            </div>
+                            <input required class="bg-transparent" type="text" name="time" pattern="^(0[1-9]|1[0-2]):[0-5][0-9] (AM|PM|am|pm)$" title="Ejemplo: 07:30 AM" placeholder="Ejemplo: 07:30 AM">
+                        </label>
+                    </div>
                 </div>
-
-                <div class="pt-4">
-                    <span class="font-semibold ">
-                        Ingresa la fecha en la que desea agendar la compra de su:
-                    </span></br>
-                    <span class="text-xl font-bold"> <?php echo $year . " " . $marca_nombre . " " . $Modelo_nombre . " "; ?></span>
-
-                </div>
-
-                <div>
-                    <label class=" mt-5  flex items-center gap-3 border border-gray-BD rounded-lg p-1 ps-4">
-                        <div class="w-5 h-5">
-                            <img class="w-full h-full" src="../svg/lapiz.svg" alt="">
-                        </div>
-                        <input required class="bg-transparent" type="date" name="" id="">
-                    </label>
-
-                    <label class="mt-5 flex items-center gap-3 border border-gray-BD rounded-lg p-1 ps-4">
-                        <div class="w-5 h-5">
-                            <img class="w-full h-full" src="../svg/lapiz.svg" alt="">
-                        </div>
-                        <input required class="bg-transparent" type="text" id="hora" name="hora" pattern="^(0[1-9]|1[0-2]):[0-5][0-9] (AM|PM|am|pm)$" title="Ejemplo: 07:30 AM" placeholder="Ejemplo: 07:30 AM">
-                    </label>
-
-
-                </div>
-            </div>
 
                 <?php
                 if (isset($_SESSION['error_message'])) {

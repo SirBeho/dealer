@@ -39,7 +39,7 @@ $modelo = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
                         <div class=" flex flex-col gap-6 ">
                             <label >
                             <span>Marca</span>
-                            <select id="marca" onchange="updateModelos()" name="marca" placeholder="Marca">
+                            <select id="marca" onchange="updateModelo()" name="marca" placeholder="Marca">
                                 <option value="" selected>Marca</option>
                                 <?php
                                 if ($marcas) {

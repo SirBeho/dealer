@@ -1,4 +1,11 @@
 <?php session_start();
+
+if (!isset($_SESSION['persona']['isInterno']) || $_SESSION['persona']['isInterno']==0 ) {
+    header("Location: ./home.php");
+    die();
+}
+  
+
 require("../php/connection.php");
 $marcas = $mysqli->query("SELECT * FROM `vehiculos_marcas`");
 $marcas2 = $mysqli->query("SELECT * FROM `vehiculos_marcas`");

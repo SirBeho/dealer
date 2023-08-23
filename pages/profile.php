@@ -27,11 +27,7 @@ extract($_SESSION['persona']);
        
         <div class="flex flex-col items-center w-full max-w-md px-12 mt-20 rounded-3xl  text-[#333]">
 
-            <a href="./home.php" class="w-10 self-start text-orange-600 hover:text-orange-700 -ms-24 hover:bg-transparent">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
-                    <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
-                </svg>
-            </a>
+          
 
             <div class="my-4">
                 <h3 class="font-bold text-lg text-center mb-2 "> Perfil </h3>

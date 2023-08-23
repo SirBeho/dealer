@@ -1,10 +1,25 @@
 <?php session_start();
 require("../php/connection.php");
 
-$caracteristicas = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
-$categoria = $mysqli->query("SELECT * FROM `vehiculo_categoria`");
-$marcas = $mysqli->query("SELECT * FROM `vehiculos_marcas`");
-$modelos = $mysqli->query("SELECT * FROM `vehiculos_modelos`")
+    if (!isset($_GET["id"])) {
+        header("Location: ./home.php");
+        die();
+    }
+
+
+$agenda = $mysqli->query("SELECT * FROM `agenda_compras` where id_agenda =".$_GET["id"])->fetch_assoc();
+
+extract($agenda);
+
+
+$cliente = $mysqli->query("SELECT * FROM `usuario` where idUsuario=".$id_usuario)->fetch_assoc();
+$vehiculo = $mysqli->query("SELECT * from vehiculos_venta left JOIN vehiculos_modelos on idVehiculos_Modelos = vehiculo_modelo  join vehiculos_marcas on vehiculos_modelos.marca = vehiculos_marcas.idVehiculos_Marca join vehiculo_categoria on vehiculos_venta.vehiculo_Categoria = vehiculo_categoria.idVehiculo_Categoria  where vehiculos_venta.idVehiculos_Venta=".$id_vehiculo)->fetch_assoc();
+extract($cliente);
+extract($vehiculo);
+
+
+$caracteristicas = $mysqli->query("SELECT * FROM caracteristicasvsvehiculoventa join vehiculo_caracteristicas on vehiculo_caracteristicas.idVehiculo_Caracteristicas = caracteristicasvsvehiculoventa.IdCaracteristica where IdVehiculoVenta =" . $id_vehiculo);
+
 
 ?>
 <!DOCTYPE html>
@@ -21,7 +36,8 @@ $modelos = $mysqli->query("SELECT * FROM `vehiculos_modelos`")
 </head>
 
 <body>
-    <div class="w-screen p-6 ">
+<?php include "./nav.php" ?>
+    <div class="w-screen p-6 mt-14 ">
         <div class=" flex justify-between items-center mt-2">
             <span class="text-3xl font-bold ">Registro de Vehiculo</span>
             <div class="w-20">
@@ -35,34 +51,35 @@ $modelos = $mysqli->query("SELECT * FROM `vehiculos_modelos`")
 
                         <label>
                             <span>Nombre Cliente</span></br>
-                            <input type="text" disabled >
+                            <input type="text" value="<?php echo $NombreUser ?>" disabled >
                         </label>
 
 
                         <label>
-                            <span>Cedula Cliente</span></br>
-                            <input type="text" disabled >
+                            <span>Entrega</span></br>
+                            <input type="text" value="<?php echo $entrega_local ? "Entrega Local" : "Direccion Cliente"; ?>" disabled>
+
                         </label>
 
                         <label>
                             <span>Marca</span></br>
-                            <input type="text" disabled >
+                            <input type="text" value="<?php echo $marca_nombre ?>" disabled >
                         </label>
 
 
                         <label>
                             <span>Modelo</span></br>
-                            <input type="text" disabled >
+                            <input type="text" value="<?php echo $Modelo_nombre ?>" disabled >
                         </label>
 
                         <label>
                             <span>Tipo de Vehiculo</span></br>
-                            <input type="text" disabled >
+                            <input type="text" value="<?php echo $nombre_Categoria ?>" disabled >
                         </label>
 
                         <label>
                             <span>Año</span></br>
-                            <input type="text" disabled >
+                            <input type="text"  value="<?php echo $year ?>" disabled >
                         </label>
 
 
@@ -70,32 +87,32 @@ $modelos = $mysqli->query("SELECT * FROM `vehiculos_modelos`")
                             <span>Condición</span></br>
 
                             <label>
-                                <input class="outline " type="checkbox" name="condicion[]" value="1"> Nuevo
+                                <input disabled class="outline " type="checkbox"  <?php if($nuevo) echo  "checked" ?> > Nuevo
                             </label>
                             <label>
-                                <input class="outline" type="checkbox" name="condicion[]" value="0"> Usado
+                                <input disabled  class="outline" type="checkbox" <?php if(!$nuevo) echo  "selected"  ?> > Usado
                             </label>
                         </div>
-                        <label>
-                            <span>Color</span></br>
-                            <input type="text" disabled >
-                        </label>
-
+                       
                     </div>
                     <div>
                         <span>Caracteristicas</span>
-                        <div class="grid grid-cols-2 gap-1 gap-x-14 h-80  pr-4 ">
+                        <div class="grid grid-cols-2 gap-1 gap-x-14 max-h-80  pr-4 ">
 
                             <?php
                             if ($caracteristicas) {
+                               
                                 if ($caracteristicas->num_rows > 0) {
 
                                     while ($datos = $caracteristicas->fetch_assoc()) {
+                                        
                             ?>
-                                        <label class=" rounded-lg ">
-                                            <input  type="checkbox" name="tipo[]" value="<?php echo $datos['idVehiculo_Categoria'] ?>">
-                                            &nbsp;<?php echo $datos['nombre_Categoria'] ?>
-                                        </label>
+
+                                <label class="bg-orange-600 text-white rounded-md">
+                                    <input type="hidden" name="tipo[]" value="<?php echo $datos['idVehiculo_Caracteristicas'] ?>">
+                                    &nbsp;<?php echo $datos['Vehiculo_Caracteristica'] ?>
+                                </label>
+
                             <?php
                                     }
                                 }
@@ -110,7 +127,7 @@ $modelos = $mysqli->query("SELECT * FROM `vehiculos_modelos`")
                     </div>
                     <label class="">
                         <span>Precio</span>
-                        <input   name="precio" placeholder="Precio ">
+                        <input  value="<?php echo number_format($precio, 2, '.', ','); ?>" name="precio" placeholder="Precio ">
                     </label>
                
                 

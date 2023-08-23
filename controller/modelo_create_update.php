@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $_POST[$key] = trim($value);
     }
     extract($_POST);
-    var_dump($_POST);
+  
 
     require("../php/connection.php");
     if ($accion == "create") {

@@ -16,8 +16,9 @@ if (isset($_GET["id"])) {
     }
     extract($resultado);
     $caracteristicas_id = $mysqli->query("SELECT idVehiculo_Caracteristicas FROM caracteristicasvsvehiculoventa join vehiculo_caracteristicas on vehiculo_caracteristicas.idVehiculo_Caracteristicas = caracteristicasvsvehiculoventa.IdCaracteristica where IdVehiculoVenta =" . $_GET["id"]);
-
+    // $caracteristicas_ids = $mysqli->query("SELECT idVehiculo_Caracteristicas FROM caracteristicasvsvehiculoventa join vehiculo_caracteristicas on vehiculo_caracteristicas.idVehiculo_Caracteristicas = caracteristicasvsvehiculoventa.IdCaracteristica where IdVehiculoVenta =" . $_GET["id"]);
 }
+
 
 
 
@@ -43,13 +44,13 @@ if (isset($_GET["id"])) {
 
     <?php include "./nav.php" ?>
     <div class="w-screen p-6 mt-14">
-<?php var_dump($caracteristicas_id->fetch_assoc());  ?>
+
         <span class="block text-3xl font-bold border-b-2 border-orange-300 ">Registro de Vehiculo</span>
-        <form action="./detalle.php?id=1" method="post" class="flex flex-col gap-6 items-center mt-4 ">
+        <form action="../controller/vehiculo.php" method="post" class="flex flex-col gap-6 items-center mt-4 ">
 
-   
 
-        <div id="cuadro" class="flex gap-12">
+
+            <div id="cuadro" class="flex gap-12">
                 <div class="flex flex-col gap-5">
                     <span class="font-semibold ">Datos Generales:</span>
                     <div class="grid grid-cols-2 gap-4">
@@ -107,25 +108,30 @@ if (isset($_GET["id"])) {
 
                         <label>
                             <span>Año</span></br>
-                            <input type="number" name="anio_max" placeholder="Año" value="<?php echo $year; ?>">
+                            <input type="number" name="year" placeholder="Año" value="<?php if (isset($year)) echo $year; ?>">
+                        </label>
+                        <div class="flex gap-4 items-center ">
+                            Condición:
+                            <label>
+                                <input class="w-fit" type="radio" name="condicion[]" value="1" <?php if (isset($nuevo) && $nuevo) echo "checked"; ?>> Nuevo
+                            </label>
+                            <label>
+                                <input class="w-fit" type="radio" name="condicion[]" value="0" <?php if (isset($nuevo) && !$nuevo) echo "checked"; ?>> Usado
+                            </label>
+                        </div>
+
+                        <label>
+                            <span>Color</span></br>
+                            <input type="text" name="color" placeholder="color" value="<?php if (isset($color)) echo $color; ?>">
                         </label>
 
                     </div>
-                    <div class="flex gap-4 ">
-                        Condición:
-                        <label>
-                            <input class="w-fit" type="radio" name="condicion[]" value="1"<?php if ($nuevo) echo "checked"; ?>> Nuevo
-                        </label>
-                        <label>
-                            <input class="w-fit" type="radio" name="condicion[]" value="0"<?php if (!$nuevo) echo "checked"; ?>> Usado
-                        </label>
-                    </div>
+
                     <div>
                         <span class="font-semibold text-base">Caracteristicas:</span>
                         <div class="grid grid-cols-2 gap-1 h-80 max-w-md overflow-scroll mt-3 ">
 
                             <?php
-                             $caracteristicas_ids = $mysqli->query("SELECT idVehiculo_Caracteristicas FROM caracteristicasvsvehiculoventa join vehiculo_caracteristicas on vehiculo_caracteristicas.idVehiculo_Caracteristicas = caracteristicasvsvehiculoventa.IdCaracteristica where IdVehiculoVenta =" . $_GET["id"]);
 
                             if ($caracteristicas) {
                                 if ($caracteristicas->num_rows > 0) {
@@ -133,7 +139,7 @@ if (isset($_GET["id"])) {
                                     while ($datos = $caracteristicas->fetch_assoc()) {
                             ?>
                                         <label class="  ">
-                                            <input type="checkbox" name="tipo[]" value="<?php echo $datos['idVehiculo_Caracteristicas'] ?>">
+                                            <input type="checkbox" name="caracteristicas[]" value="<?php echo $datos['idVehiculo_Caracteristicas'] ?>">
                                             &nbsp;<?php echo $datos['Vehiculo_Caracteristica'] ?>
                                         </label>
                             <?php
@@ -148,31 +154,31 @@ if (isset($_GET["id"])) {
                     </div>
                     <label>
                         <span>Precio</span>
-                        <input type="number" name="precio" value="<?php echo $precio; ?>" placeholder="Precio ">
+                        <input type="number" name="precio" value="<?php if (isset($precio)) echo  $precio; ?>" placeholder="Precio ">
                     </label>
                 </div>
                 <div class="flex flex-col gap-5 w-40  ">
                     <span class="font-semibold">Datos tecnicos</span>
                     <label>
                         <span>Motor</span></br>
-                        <input type="number" name="precio" placeholder="Precio ">
+                        <input type="text" name="motor" placeholder="motor ">
                     </label>
 
                     <label>
                         <span>Trasmision</span></br>
-                        <input type="number" name="Trasmision" placeholder="Trasmision ">
+                        <input type="text" name="trasmision" placeholder="Trasmision ">
                     </label>
                     <label>
                         <span>Traccion</span></br>
-                        <input type="number" name="Traccion" placeholder="Traccion ">
+                        <input type="text" name="traccion" placeholder="Traccion ">
                     </label>
                     <label>
                         <span>Pasajeros</span></br>
-                        <input type="number" name="Pasajeros" placeholder="Pasajeros ">
+                        <input type="text" name="pasajeros" placeholder="Pasajeros ">
                     </label>
                     <label>
                         <span>Puertas</span></br>
-                        <input type="number" name="Puertas" placeholder="Puertas ">
+                        <input type="text" name="puertas" placeholder="Puertas ">
                     </label>
                 </div>
             </div>
@@ -197,7 +203,7 @@ if (isset($_GET["id"])) {
         });
     </script>
 
-    
+
 </body>
 
 </html>

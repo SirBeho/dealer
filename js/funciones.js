@@ -84,6 +84,34 @@ function updateModelos() {
     }
 }
 
+function updateModelo() {
+    var marcaId = document.getElementById("marca").value;
+    var modeloSelect = document.getElementById("modelo");
+    
+    // Limpia las opciones actuales del menú de modelos
+    modeloSelect.innerHTML = '<option value=""  selected>Modelo</option>';
+    
+    // Si no se seleccionó una marca, no se realiza la consulta
+    if (marcaId !== "") {
+        // Realiza una solicitud AJAX para obtener los modelos de la marca seleccionada
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var modelos = JSON.parse(xhr.responseText);
+                modelos.forEach(function(modelo) {
+                    var option = document.createElement("option");
+                    option.value = modelo.id;
+                    option.textContent = modelo.nombre;
+                    modeloSelect.appendChild(option);
+                });
+            }
+        };
+        
+        xhr.open("GET", "../php/get_modelos_por_marca.php?marcaId=" + marcaId, true);
+        xhr.send();
+    }
+}
+
 
     
 

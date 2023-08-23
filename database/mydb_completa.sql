@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 23-08-2023 a las 01:22:53
+-- Tiempo de generación: 23-08-2023 a las 01:57:37
 -- Versión del servidor: 8.0.31
 -- Versión de PHP: 8.2.0
 
@@ -20,6 +20,23 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `mydb`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `agenda_compras`
+--
+
+DROP TABLE IF EXISTS `agenda_compras`;
+CREATE TABLE IF NOT EXISTS `agenda_compras` (
+  `id_agenda` int NOT NULL AUTO_INCREMENT,
+  `id_usuario` int NOT NULL,
+  `id_vehiculo` int NOT NULL,
+  `fecha` date NOT NULL,
+  `hora` time NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id_agenda`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -970,40 +987,42 @@ DROP TABLE IF EXISTS `vehiculos_vendidos`;
 CREATE TABLE IF NOT EXISTS `vehiculos_vendidos` (
   `idVehiculos_Vendidos` int NOT NULL AUTO_INCREMENT,
   `idVehiculoVenta` int NOT NULL,
+  `id_usuario` int NOT NULL,
   `idCliente` int NOT NULL,
   `PrecioAcordado` float NOT NULL,
   `fechaVenta` date NOT NULL,
   `MontoPagoMensual` float NOT NULL,
   PRIMARY KEY (`idVehiculos_Vendidos`),
-  KEY `vehiculoVenta_idx` (`idVehiculoVenta`),
-  KEY `cliente_idx` (`idCliente`)
+  KEY `id_usuario` (`id_usuario`),
+  KEY `idCliente` (`idCliente`),
+  KEY `idVehiculoVenta` (`idVehiculoVenta`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `vehiculos_vendidos`
 --
 
-INSERT INTO `vehiculos_vendidos` (`idVehiculos_Vendidos`, `idVehiculoVenta`, `idCliente`, `PrecioAcordado`, `fechaVenta`, `MontoPagoMensual`) VALUES
-(1, 1, 1, 25000, '2023-07-01', 1500),
-(2, 2, 1, 30000, '2023-07-02', 1800),
-(3, 3, 2, 22000, '2023-07-03', 1320),
-(4, 4, 2, 28000, '2023-07-04', 1680),
-(5, 5, 3, 20000, '2023-07-05', 1200),
-(6, 6, 3, 26000, '2023-07-06', 1560),
-(7, 7, 4, 24000, '2023-07-07', 1440),
-(8, 8, 4, 32000, '2023-07-08', 1920),
-(9, 9, 5, 21000, '2023-07-09', 1260),
-(10, 10, 5, 27000, '2023-07-10', 1620),
-(11, 11, 6, 23000, '2023-07-11', 1380),
-(12, 12, 6, 29000, '2023-07-12', 1740),
-(13, 13, 7, 26000, '2023-07-13', 1560),
-(14, 14, 7, 34000, '2023-07-14', 2040),
-(15, 15, 8, 25000, '2023-07-15', 1500),
-(16, 16, 8, 31000, '2023-07-16', 1860),
-(17, 17, 9, 28000, '2023-07-17', 1680),
-(18, 18, 9, 36000, '2023-07-18', 2160),
-(19, 19, 10, 27000, '2023-07-19', 1620),
-(20, 20, 10, 33000, '2023-07-20', 1980);
+INSERT INTO `vehiculos_vendidos` (`idVehiculos_Vendidos`, `idVehiculoVenta`, `id_usuario`, `idCliente`, `PrecioAcordado`, `fechaVenta`, `MontoPagoMensual`) VALUES
+(1, 1, 1, 1, 25000, '2023-07-01', 1500),
+(2, 2, 1, 1, 30000, '2023-07-02', 1800),
+(3, 3, 1, 2, 22000, '2023-07-03', 1320),
+(4, 4, 2, 2, 28000, '2023-07-04', 1680),
+(5, 5, 2, 3, 20000, '2023-07-05', 1200),
+(6, 6, 2, 3, 26000, '2023-07-06', 1560),
+(7, 7, 3, 4, 24000, '2023-07-07', 1440),
+(8, 8, 3, 4, 32000, '2023-07-08', 1920),
+(9, 9, 3, 5, 21000, '2023-07-09', 1260),
+(10, 10, 4, 5, 27000, '2023-07-10', 1620),
+(11, 11, 5, 6, 23000, '2023-07-11', 1380),
+(12, 12, 5, 6, 29000, '2023-07-12', 1740),
+(13, 13, 6, 7, 26000, '2023-07-13', 1560),
+(14, 14, 6, 7, 34000, '2023-07-14', 2040),
+(15, 15, 6, 8, 25000, '2023-07-15', 1500),
+(16, 16, 6, 8, 31000, '2023-07-16', 1860),
+(17, 17, 7, 9, 28000, '2023-07-17', 1680),
+(18, 18, 7, 9, 36000, '2023-07-18', 2160),
+(19, 19, 9, 10, 27000, '2023-07-19', 1620),
+(20, 20, 9, 10, 33000, '2023-07-20', 1980);
 
 -- --------------------------------------------------------
 
@@ -1033,26 +1052,26 @@ CREATE TABLE IF NOT EXISTS `vehiculos_venta` (
 --
 
 INSERT INTO `vehiculos_venta` (`idVehiculos_Venta`, `vehiculo_matricula`, `precio`, `millage`, `fecha_adquisicion`, `year`, `vehiculo_modelo`, `vehiculo_Categoria`, `nuevo`, `image`) VALUES
-(1, '', 25000, 20000, '2023-01-01', '2022', 1, 1, 1, 'corolla.jpg'),
-(2, '', 28000, 15000, '2023-01-02', '2022', 2, 1, 1, 'civic.jpg'),
-(3, '', 32000, 10000, '2023-01-03', '2022', 3, 2, 1, 'f150.jpg'),
-(4, '', 35000, 12000, '2023-01-04', '2022', 4, 2, 1, 'silverado.jpg'),
-(5, '', 26000, 18000, '2023-01-05', '2022', 5, 3, 1, 'altima.jpg'),
-(6, '', 34000, 8000, '2023-01-06', '2022', 6, 1, 1, '3series.jpg'),
-(7, '', 39000, 7000, '2023-01-07', '2022', 7, 1, 1, 'cclass.jpg'),
-(8, '', 42000, 5000, '2023-01-08', '2022', 8, 2, 1, 'a4.jpg'),
-(9, '', 28000, 12000, '2023-01-09', '2022', 9, 2, 1, 'elantra.jpg'),
-(10, '', 31000, 9000, '2023-01-10', '2022', 10, 3, 1, 'sorento.jpg'),
-(11, '', 28000, 17000, '2023-01-11', '2022', 11, 3, 1, 'golf.jpg'),
-(12, '', 33000, 15000, '2023-01-12', '2022', 12, 1, 1, 'cx5.jpg'),
-(13, '', 38000, 12000, '2023-01-13', '2022', 13, 1, 1, 'outback.jpg'),
-(14, '', 39000, 18000, '2023-01-14', '2022', 14, 2, 1, 'wrangler.jpg'),
-(15, '', 45000, 8000, '2023-01-15', '2022', 15, 2, 1, 'rx.jpg'),
-(16, '', 32000, 20000, '2023-01-16', '2022', 16, 3, 1, 'xc60.jpg'),
-(17, '', 49000, 7000, '2023-01-17', '2022', 17, 3, 1, '488gtb.jpg'),
-(18, '', 52000, 6000, '2023-01-18', '2022', 18, 1, 1, '911.jpg'),
-(19, '', 80000, 3000, '2023-01-19', '2022', 19, 1, 1, 'models.jpg'),
-(20, '', 85000, 5000, '2023-01-20', '2022', 20, 2, 1, 'rangerover.jpg');
+(1, 'ABC123', 25000, 20000, '2023-01-01', '2022', 1, 1, 1, 'corolla.jpg'),
+(2, 'DEF456', 28000, 15000, '2023-01-02', '2022', 2, 1, 1, 'civic.jpg'),
+(3, 'GHI789', 32000, 10000, '2023-01-03', '2022', 3, 2, 1, 'f150.jpg'),
+(4, 'JKL012', 35000, 12000, '2023-01-04', '2022', 4, 2, 1, 'silverado.jpg'),
+(5, 'MNO345', 26000, 18000, '2023-01-05', '2022', 5, 3, 1, 'altima.jpg'),
+(6, 'PQR678', 34000, 8000, '2023-01-06', '2022', 6, 1, 1, '3series.jpg'),
+(7, 'STU901', 39000, 7000, '2023-01-07', '2022', 7, 1, 1, 'cclass.jpg'),
+(8, 'VWX234', 42000, 5000, '2023-01-08', '2022', 8, 2, 1, 'a4.jpg'),
+(9, 'YZA567', 28000, 12000, '2023-01-09', '2022', 9, 2, 1, 'elantra.jpg'),
+(10, 'BCD890', 31000, 9000, '2023-01-10', '2022', 10, 3, 1, 'sorento.jpg'),
+(11, 'EFG123', 28000, 17000, '2023-01-11', '2022', 11, 3, 1, 'golf.jpg'),
+(12, 'HIJ456', 33000, 15000, '2023-01-12', '2022', 12, 1, 1, 'cx5.jpg'),
+(13, 'KLM789', 38000, 12000, '2023-01-13', '2022', 13, 1, 1, 'outback.jpg'),
+(14, 'NOP012', 39000, 18000, '2023-01-14', '2022', 14, 2, 1, 'wrangler.jpg'),
+(15, 'QRS345', 45000, 8000, '2023-01-15', '2022', 15, 2, 1, 'rx.jpg'),
+(16, 'TUV678', 32000, 20000, '2023-01-16', '2022', 16, 3, 1, 'xc60.jpg'),
+(17, 'WXY901', 49000, 7000, '2023-01-17', '2022', 17, 3, 1, '488gtb.jpg'),
+(18, 'ZAB234', 52000, 6000, '2023-01-18', '2022', 18, 1, 1, '911.jpg'),
+(19, 'CDE567', 80000, 3000, '2023-01-19', '2022', 19, 1, 1, 'models.jpg'),
+(20, 'FGH890', 85000, 5000, '2023-01-20', '2022', 20, 2, 1, 'rangerover.jpg');
 
 -- --------------------------------------------------------
 
@@ -1251,8 +1270,9 @@ ALTER TABLE `vehiculos_modelos`
 -- Filtros para la tabla `vehiculos_vendidos`
 --
 ALTER TABLE `vehiculos_vendidos`
-  ADD CONSTRAINT `cliente` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`idCliente`),
-  ADD CONSTRAINT `vehiculoVenta` FOREIGN KEY (`idVehiculoVenta`) REFERENCES `vehiculos_venta` (`idVehiculos_Venta`);
+  ADD CONSTRAINT `vehiculos_vendidos_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`idUsuario`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `vehiculos_vendidos_ibfk_2` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`idCliente`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `vehiculos_vendidos_ibfk_3` FOREIGN KEY (`idVehiculoVenta`) REFERENCES `vehiculos_venta` (`idVehiculos_Venta`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Filtros para la tabla `vehiculos_venta`

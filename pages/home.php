@@ -27,7 +27,18 @@ $favoritos = $mysqli->query("select * from favoritos left join vehiculos_venta o
 
         <form id="cuadro" action="../php/buscar.php" method="post" class="mt-14 p-6 ">
             <div class="p-2 shadow-md ">
-                <span class="block text-3xl font-bold my-4  border-b-2 border-orange-300 ">Buscar Vehiculo</span>
+                <span class="block text-3xl font-bold my-4  border-b-2 border-orange-300 relative ">Buscar Vehiculo
+                <?php
+            if (isset($_SESSION['error_message'])) {
+                echo '<p id="msj" class="text-red-500 w-full text-center absolute transform duration-500 ease-in-out bottom-8">' . $_SESSION['error_message'] . '</p>';
+                unset($_SESSION['error_message']);
+            }
+            if (isset($_SESSION['success_message'])) {
+                echo '<span id="msj" class="text-green-500 w-full text-center absolute transform duration-500 ease-in-out left-0 bottom-8">' . $_SESSION['success_message'] . '</span>';
+                unset($_SESSION['success_message']);
+            }
+            ?>
+                </span>
                 <div class="flex justify-center gap-14">
 
                     <div class="flex flex-col gap-6 max-w-xs">
@@ -43,7 +54,7 @@ $favoritos = $mysqli->query("select * from favoritos left join vehiculos_venta o
                         </div>
 
                         <div class="grid grid-cols-2 gap-8">
-                            <select id="marca" onchange="updateModelos()" name="marca" placeholder="Marca">
+                            <select id="marca" onchange="updateModelo()" name="marca" placeholder="Marca">
                                 <option value="" selected>Marca</option>
                                 <?php
                                 if ($marcas) {

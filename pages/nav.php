@@ -1,5 +1,12 @@
 <?php
+
+if (!isset($_SESSION['persona'])) {
+    header("Location: ../index.php");
+    die();
+}
 extract($_SESSION['persona']);
+
+
  ?>
 
 <!-- Incluir archivo JavaScript "menu.js" de forma asíncrona -->
@@ -7,7 +14,7 @@ extract($_SESSION['persona']);
 <script  src="../js/funciones.js" defer></script>
 
 <!-- Contenedor principal con diseño flexible, padding y logotipo -->
-<div class="flex justify-between w-screen px-4  sx:px-8 py-1 fixed top-0 border-b-2 border-orange-500 bg-white shadow-md">
+<div class=" z-10 flex justify-between w-screen px-4  sx:px-8 py-1 fixed top-0 border-b-2 border-orange-500 bg-white shadow-md">
 
     <!-- Sección del logotipo -->
     <a  href="./home.php" class="w-14">
@@ -41,14 +48,24 @@ extract($_SESSION['persona']);
                 </div>
                 <span>My Profile</span>
             </a>
-
+            <?php if ($isInterno == 1) : ?>
             <!-- Opción 2: Ir a la página de chat de grupo -->
             <a href="./mantenimiento.php" class="flex items-center gap-2 p-2 mb-2 hover:bg-gray-100 rounded-xl cursor-pointer">
                 <div class="w-5">
                     <img src="../svg/ajustes.svg" alt="">
                 </div>
                 <span>Mantenimientos</span>
+            </a> 
+           
+
+            <a href="./agenda.php" class="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-xl cursor-pointer">
+                <div class="w-5">
+                    <img src="../svg/profile.svg" alt="">
+                </div>
+                <span>Agenda</span>
             </a>
+            <?php endif; ?>
+
         </div>
 
         <!-- Opción 3: Cerrar sesión -->
@@ -60,21 +77,3 @@ extract($_SESSION['persona']);
         </a>
     </div>
 </div>
-<!-- <div class=" flex justify-between w-full items-center mb-4 bg-[#ffe6e2] px-2 fixed top-0">
-            <div class="flex gap-4">
-                <div class="w-14">
-                    <img src="../pictures/auto.png" alt="">
-                </div>
-                <a href="./home.php" class="flex items-center gap-2 rounded-md hover:bg-gray-500">
-                    <span class="text-xl font-bold ">Home</span>
-                    <div class="w-5">
-                        <img class="w-full h-full" src="../svg/home.svg" alt="">
-                    </div>
-                </a>
-            </div>
-
-
-            <div class="w-10 ">
-                <img class="w-full h-full" src="../svg/profile.svg" alt="">
-            </div>
-        </div> -->
