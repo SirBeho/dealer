@@ -43,9 +43,11 @@ $modelos = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
             <?php echo $year . " " . $marca_nombre . " " . $Modelo_nombre . " "; ?>
             <span class="text-gray-500"> RD$ <?php echo number_format($precio, 2, '.', ','); ?> </span>
             </div>
+            <?php if ($isInterno == 1) : ?>
             <a href="./registro.php?id=<?php echo $_GET["id"]?>" class=" flex w-8  hover:bg-blue-200">
                 <img src="../svg/edit.svg" alt="">
             </a>
+            <?php endif; ?>
 
         </span>
 
@@ -113,22 +115,24 @@ $modelos = $mysqli->query("SELECT * FROM `vehiculos_modelos`");
 
                 </div>
                 <div class="grid grid-cols-2 gap-3 gap-x-14  pr-4 mt-6 ">
-                    <span>Benjmanin Tavarez</span>
-                    <button class="w-full text-center p-2 bg-orange-600 rounded-lg text-sm  font-semibold text-white" type="submit">Solicitar test Driver</button>
-                    <span>809-889-2235</span>
+                    <span> <?php
+                            if ($disponible) {
+                                echo 'En posesion de la empresa';
+                            } else {
+                                echo 'No disponible';
+                            }
+                        ?> </span>
+                    <button class="w-full text-center p-2 bg-orange-600 hover:bg-blue-600 rounded-lg text-sm  font-semibold text-white" type="submit">Solicitar test Driver</button>
+                    <span>809-889-2235</span> 
                     <form action="./compra.php" method="post">
                         <input type="hidden" name="id" value="<?php echo $_GET["id"] ?>">
-
-
                         <?php
                             if ($disponible) {
                                 echo '<button class="w-full text-center p-2 bg-orange-600 rounded-lg text-sm font-semibold text-white" type="submit">Agendar Compra</button>';
                             } else {
                                 echo '<span disabled class="w-full block text-center p-2 bg-gray-600 rounded-lg text-sm font-semibold text-white" >Vehiculo No Disponible</span>';
                             }
-                            ?>
-
-                    
+                        ?>
                     </form>
                 </div>
             </div>

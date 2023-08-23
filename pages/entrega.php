@@ -8,13 +8,11 @@ if (!isset($_GET["id"])) {
 
 
 $agenda = $mysqli->query("SELECT * FROM `agenda_compras` where id_agenda =" . $_GET["id"])->fetch_assoc();
-
 extract($agenda);
+$cliente = $mysqli->query("SELECT * FROM usuario join persona on usuario.idUsuario = persona.idPersona where usuario.idUsuario=" . $id_usuario)->fetch_assoc();
+         
 
-
-$cliente = $mysqli->query("SELECT * FROM `usuario` where idUsuario=" . $id_usuario)->fetch_assoc();
 $vehiculo = $mysqli->query("SELECT * from vehiculos_venta left JOIN vehiculos_modelos on idVehiculos_Modelos = vehiculo_modelo  join vehiculos_marcas on vehiculos_modelos.marca = vehiculos_marcas.idVehiculos_Marca join vehiculo_categoria on vehiculos_venta.vehiculo_Categoria = vehiculo_categoria.idVehiculo_Categoria  where vehiculos_venta.idVehiculos_Venta=" . $id_vehiculo)->fetch_assoc();
-extract($cliente);
 extract($vehiculo);
 
 
@@ -50,9 +48,14 @@ $caracteristicas = $mysqli->query("SELECT * FROM caracteristicasvsvehiculoventa 
 
                 <div class="grid grid-cols-2 gap-4">
         <input type="hidden" name="agenda" value="<?php echo $_GET["id"] ?>">
-                    <label>
+                    
+            <?php 
+             extract($cliente);
+            ?>
+        
+        <label>
                         <span>Nombre Cliente</span></br>
-                        <input type="text" value="<?php echo $NombreUser ?>" disabled>
+                        <input type="text" value="<?php echo $nombre." ".$apellido ?>" disabled>
                     </label>
 
 

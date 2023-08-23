@@ -1,11 +1,17 @@
 <?php session_start();
 require("../php/connection.php");
-if (!isset($_SESSION['persona']['isInterno']) || $_SESSION['persona']['isInterno'] == 0) {
+// if (!isset($_SESSION['persona']['isInterno']) || $_SESSION['persona']['isInterno'] == 0) {
+if (!isset($_SESSION['persona']['isInterno']) ) {
     header("Location: ./home.php");
     die();
 }
 
-$agenda = $mysqli->query("SELECT * FROM `agenda_compras`");
+if( $_SESSION['persona']['isInterno'] == 1) {
+
+    $agenda = $mysqli->query("SELECT * FROM `agenda_compras`");
+}else{  
+    $agenda = $mysqli->query("SELECT * FROM `agenda_compras` where id_usuario=".$_SESSION['persona']['idUsuario']);
+}
 
 ?>
 <!DOCTYPE html>

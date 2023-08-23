@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $condiciones = array();
 
-  //  $condiciones[] = "disponible";
+    $condiciones[] = "disponible";
     
     if (isset($_POST["tipo"])) {
         $tipo = "'" . implode("','", $tipo) . "'";
